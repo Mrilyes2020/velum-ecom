@@ -530,11 +530,40 @@ function OrderSection() {
                   className="w-28 h-28 md:w-full md:h-64 object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 />
               </div>
-              <p className="hidden md:block text-center text-xs text-muted-foreground mt-2 italic">60 كبسولة نباتية طبيعية</p>
+              <p className="hidden md:block text-center text-xs text-muted-foreground mt-2 italic">{pack} كبسولة نباتية طبيعية</p>
               <div className="flex-1 md:mt-4">
                 <h3 className="text-xl md:text-2xl font-black">VELUM</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">تركيبة بريبيوتك — 60 كبسولة</p>
+                <p className="text-xs md:text-sm text-muted-foreground">تركيبة بريبيوتك — {pack} كبسولة</p>
                 <div className="mt-1 md:mt-4 text-2xl md:text-3xl font-black text-gold">{fmtDZD(price)}</div>
+              </div>
+            </div>
+
+            {/* pack selector */}
+            <div className="mt-5">
+              <span className="text-sm font-semibold">اختر العبوة:</span>
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                {([60, 30] as const).map((p) => {
+                  const pPrice = p === 60 ? basePrice : Math.round(basePrice / 2);
+                  const active = pack === p;
+                  return (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => setPack(p)}
+                      className={`rounded-2xl border-2 p-3 text-center transition active:scale-95 ${
+                        active ? "border-gold bg-gold/10" : "border-border bg-background hover:border-gold/50"
+                      }`}
+                    >
+                      <div className="font-black text-base">{p} كبسولة</div>
+                      <div className={`text-sm font-bold mt-0.5 ${active ? "text-gold" : "text-muted-foreground"}`}>
+                        {fmtDZD(pPrice)}
+                      </div>
+                      {p === 60 && (
+                        <div className="text-[10px] font-bold text-gold mt-1">الأكثر طلباً</div>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
