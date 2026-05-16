@@ -110,11 +110,21 @@
   html {
     font-family: "Cairo", system-ui, sans-serif;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: "Cairo", system-ui, sans-serif;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+    position: relative;
+  }
+  #root {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 }
 
