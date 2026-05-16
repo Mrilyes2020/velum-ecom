@@ -158,6 +158,75 @@ function Hero() {
   );
 }
 
+/* ---------- gallery carousel ---------- */
+const GALLERY = [
+  { src: heroImg, caption: "VELUM — العلبة والقارورة" },
+  { src: capsulesImg, caption: "60 كبسولة نباتية طبيعية" },
+  { src: ingredientsImg, caption: "مكونات طبيعية مختارة" },
+  { src: darkImg, caption: "تركيبة فاخرة وموثوقة" },
+];
+function Gallery() {
+  const [idx, setIdx] = useState(0);
+  const n = GALLERY.length;
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % n), 4000);
+    return () => clearInterval(t);
+  }, [n]);
+  return (
+    <section className="py-12 md:py-20 bg-background">
+      <div className="container mx-auto px-5 max-w-4xl">
+        <SectionHeader kicker="معرض الصور" title="اكتشف VELUM" />
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-ink aspect-[4/5] sm:aspect-[16/10]">
+          {GALLERY.map((g, i) => (
+            <img
+              key={i}
+              src={g.src}
+              alt={g.caption}
+              loading="lazy"
+              decoding="async"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                i === idx ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent p-5 md:p-8">
+            <p className="text-white text-sm md:text-lg font-bold text-center">{GALLERY[idx].caption}</p>
+          </div>
+          <button
+            type="button"
+            aria-label="السابق"
+            onClick={() => setIdx((i) => (i - 1 + n) % n)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-ink flex items-center justify-center shadow-lg backdrop-blur"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            aria-label="التالي"
+            onClick={() => setIdx((i) => (i + 1) % n)}
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-ink flex items-center justify-center shadow-lg backdrop-blur"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {GALLERY.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`صورة ${i + 1}`}
+                onClick={() => setIdx(i)}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === idx ? "w-6 bg-gold" : "w-1.5 bg-white/60"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ---------- generic section heading ---------- */
 function SectionHeader({ kicker, title }: { kicker: string; title: string }) {
   return (
