@@ -14,7 +14,87 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          discount_applied: number
+          id: string
+          notes: string | null
+          promo_code_used: string | null
+          quantity: number
+          status: string
+          total_price: number
+          unit_price: number
+          wilaya: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          discount_applied?: number
+          id?: string
+          notes?: string | null
+          promo_code_used?: string | null
+          quantity: number
+          status?: string
+          total_price: number
+          unit_price: number
+          wilaya: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          discount_applied?: number
+          id?: string
+          notes?: string | null
+          promo_code_used?: string | null
+          quantity?: number
+          status?: string
+          total_price?: number
+          unit_price?: number
+          wilaya?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          facebook_url: string
+          id: number
+          instagram_url: string
+          phone: string
+          price: number
+          promo_active: boolean
+          promo_code: string
+          promo_discount: number
+          whatsapp_clicks: number
+        }
+        Insert: {
+          facebook_url?: string
+          id?: number
+          instagram_url?: string
+          phone?: string
+          price?: number
+          promo_active?: boolean
+          promo_code?: string
+          promo_discount?: number
+          whatsapp_clicks?: number
+        }
+        Update: {
+          facebook_url?: string
+          id?: number
+          instagram_url?: string
+          phone?: string
+          price?: number
+          promo_active?: boolean
+          promo_code?: string
+          promo_discount?: number
+          whatsapp_clicks?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
