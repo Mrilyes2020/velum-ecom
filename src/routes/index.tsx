@@ -170,17 +170,25 @@ const BENEFITS = [
 ];
 function Benefits() {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <SectionHeader kicker="الفوائد" title="لماذا VELUM؟" />
-        <div className="grid md:grid-cols-3 gap-6">
-          {BENEFITS.map((b) => (
-            <div key={b.title} className="bg-card border rounded-2xl p-7 text-center hover:border-gold/60 transition shadow-sm">
-              <div className="w-14 h-14 rounded-2xl bg-gold/15 text-gold mx-auto flex items-center justify-center mb-4">
-                <b.icon className="w-7 h-7" />
+    <section className="py-20 md:py-24 bg-background">
+      <div className="container mx-auto px-6 max-w-3xl">
+        <SectionHeader kicker="المميزات" title="لماذا VELUM؟" />
+        <div className="space-y-6 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
+          {BENEFITS.map((b, i) => (
+            <div
+              key={b.title}
+              className={`p-8 rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl ${
+                i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
+              }`}
+            >
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/50 rounded-full blur-2xl pointer-events-none" />
+              <div className="relative">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-[#E5E1D8]">
+                  <b.icon className="w-6 h-6 text-gold" />
+                </div>
+                <h3 className="text-xl font-black mb-3">{b.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
               </div>
-              <h3 className="font-bold text-lg mb-2">{b.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
             </div>
           ))}
         </div>
