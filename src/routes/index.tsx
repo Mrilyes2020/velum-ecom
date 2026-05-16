@@ -419,19 +419,22 @@ function BeforeAfter() {
 }
 
 /* ---------- testimonials ---------- */
-const REVIEWS = [
+const DEFAULT_REVIEWS = [
   { name: "سارة م.", city: "تيزي وزو", text: "بعد شهر من VELUM، هضمي تحسن كثيراً وشعرت بطاقة لم أعهدها من قبل. أنصح به بشدة!" },
   { name: "كريم ب.", city: "الجزائر العاصمة", text: "منتج ممتاز ومكونات طبيعية 100%. الانتفاخ اختفى تقريباً وأنا أتناوله بانتظام." },
   { name: "نور الدين ح.", city: "وهران", text: "جودة عالية وتوصيل سريع. سعيد جداً بالنتائج وسأكرر الطلب بدون تردد." },
 ];
 function Testimonials() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const reviews = c?.reviews && c.reviews.length > 0 ? c.reviews : DEFAULT_REVIEWS;
   return (
     <section className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-5">
-        <SectionHeader kicker="آراء العملاء" title="ماذا يقولون عن VELUM" />
+        <SectionHeader kicker="آراء العملاء" title={c?.reviews_title || "ماذا يقولون عن VELUM"} />
         <div className="md:hidden flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-5 px-5 pb-4 scrollbar-hide">
-          {REVIEWS.map((r) => (
-            <div key={r.name} className="bg-card border rounded-2xl p-5 shadow-sm shrink-0 w-[85%] snap-center">
+          {reviews.map((r, idx) => (
+            <div key={r.name + idx} className="bg-card border rounded-2xl p-5 shadow-sm shrink-0 w-[85%] snap-center">
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-gold text-gold" />
@@ -445,8 +448,8 @@ function Testimonials() {
           ))}
         </div>
         <div className="hidden md:grid grid-cols-3 gap-6">
-          {REVIEWS.map((r) => (
-            <div key={r.name} className="bg-card border rounded-2xl p-6 shadow-sm">
+          {reviews.map((r, idx) => (
+            <div key={r.name + idx} className="bg-card border rounded-2xl p-6 shadow-sm">
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-gold text-gold" />
