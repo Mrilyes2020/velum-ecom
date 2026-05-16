@@ -296,10 +296,25 @@ const REVIEWS = [
 ];
 function Testimonials() {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-14 md:py-20 bg-background">
+      <div className="container mx-auto px-5">
         <SectionHeader kicker="آراء العملاء" title="ماذا يقولون عن VELUM" />
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="md:hidden flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-5 px-5 pb-4 scrollbar-hide">
+          {REVIEWS.map((r) => (
+            <div key={r.name} className="bg-card border rounded-2xl p-5 shadow-sm shrink-0 w-[85%] snap-center">
+              <div className="flex gap-1 mb-3">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-gold text-gold" />
+                ))}
+              </div>
+              <p className="text-sm leading-relaxed mb-4">"{r.text}"</p>
+              <div className="text-xs text-muted-foreground">
+                <span className="font-bold text-foreground">{r.name}</span> — {r.city}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="hidden md:grid grid-cols-3 gap-6">
           {REVIEWS.map((r) => (
             <div key={r.name} className="bg-card border rounded-2xl p-6 shadow-sm">
               <div className="flex gap-1 mb-3">
