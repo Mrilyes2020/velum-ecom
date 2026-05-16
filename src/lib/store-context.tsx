@@ -14,6 +14,20 @@ export type SiteContent = {
   order_subtitle: string;
   footer_tagline: string;
   footer_copyright: string;
+  // Editable sections
+  hero_badges?: string[];
+  benefits_title?: string;
+  benefits?: { title: string; desc: string }[];
+  ingredients_title?: string;
+  ingredients?: { name: string; desc: string }[];
+  steps_title?: string;
+  steps?: string[];
+  before_title?: string;
+  after_title?: string;
+  before_list?: string[];
+  after_list?: string[];
+  reviews_title?: string;
+  reviews?: { name: string; city: string; text: string }[];
 };
 
 export type Settings = {
