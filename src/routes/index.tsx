@@ -180,7 +180,7 @@ function Gallery() {
     <section className="py-12 md:py-20 bg-background">
       <div className="container mx-auto px-5 max-w-4xl">
         <SectionHeader kicker="معرض الصور" title="اكتشف VELUM" />
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-ink aspect-[4/5] sm:aspect-[16/10]">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-ink aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] max-h-[70vh] mx-auto">
           {GALLERY.map((g, i) => (
             <img
               key={i}
