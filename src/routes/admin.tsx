@@ -854,7 +854,7 @@ function SectionsTab() {
         />
       </SectionCard>
 
-      <div className="sticky bottom-4 bg-card border rounded-2xl p-3 flex gap-2 shadow-lg">
+      <div className="sticky bottom-20 md:bottom-4 bg-card border rounded-2xl p-3 flex gap-2 shadow-lg z-20">
         <button onClick={saveAll} disabled={saving}
                 className="btn-gold rounded-md px-6 py-3 font-bold disabled:opacity-60 flex items-center gap-2">
           {saving && <Loader2 className="w-4 h-4 animate-spin" />}
