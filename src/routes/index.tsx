@@ -490,7 +490,7 @@ function OrderSection() {
         total_price: total,
         promo_code_used: appliedPromo?.code ?? null,
         discount_applied: discountAmount,
-        notes: form.notes.trim() || null,
+        notes: `العبوة: ${pack} كبسولة${form.notes.trim() ? ` — ${form.notes.trim()}` : ""}`,
       })
       .select("id")
       .single();
