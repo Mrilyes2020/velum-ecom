@@ -201,34 +201,53 @@ function Overview() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="space-y-4 md:space-y-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {cards.map((c) => (
-          <div key={c.label} className="bg-card border rounded-2xl p-5">
-            <div className="text-xs text-muted-foreground">{c.label}</div>
-            <div className="text-2xl font-black text-gold mt-2">{c.value}</div>
+          <div key={c.label} className="bg-card border rounded-2xl p-4 md:p-5">
+            <div className="text-[11px] md:text-xs text-muted-foreground">{c.label}</div>
+            <div className="text-xl md:text-2xl font-black text-gold mt-1.5 md:mt-2 break-words">{c.value}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-card border rounded-2xl p-5">
-        <h3 className="font-bold mb-4">الطلبات حسب الحالة</h3>
+      <div className="bg-card border rounded-2xl p-4 md:p-5">
+        <h3 className="font-bold mb-3 md:mb-4 text-sm md:text-base">الطلبات حسب الحالة</h3>
         <div className="space-y-2">
           {byStatus.map((x) => (
-            <div key={x.s} className="flex items-center gap-3 text-sm">
-              <span className="w-24 shrink-0">{STATUS_AR[x.s]}</span>
-              <div className="flex-1 bg-muted rounded-full h-3 overflow-hidden">
+            <div key={x.s} className="flex items-center gap-2 md:gap-3 text-xs md:text-sm">
+              <span className="w-20 md:w-24 shrink-0">{STATUS_AR[x.s]}</span>
+              <div className="flex-1 bg-muted rounded-full h-2.5 md:h-3 overflow-hidden">
                 <div className="bg-gold h-full transition-all" style={{ width: `${(x.n / maxN) * 100}%` }} />
               </div>
-              <span className="w-8 text-left font-bold">{x.n}</span>
+              <span className="w-6 md:w-8 text-left font-bold">{x.n}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="bg-card border rounded-2xl p-5">
-        <h3 className="font-bold mb-4">آخر 5 طلبات</h3>
-        <div className="overflow-x-auto">
+      <div className="bg-card border rounded-2xl p-4 md:p-5">
+        <h3 className="font-bold mb-3 md:mb-4 text-sm md:text-base">آخر 5 طلبات</h3>
+        {/* Mobile cards */}
+        <div className="md:hidden space-y-2">
+          {orders.slice(0, 5).map((o) => (
+            <div key={o.id} className="border rounded-xl p-3 text-sm">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="font-bold truncate">{o.customer_name}</div>
+                  <div className="text-xs text-muted-foreground">{o.wilaya} • {o.quantity}×</div>
+                </div>
+                <div className="text-gold font-black whitespace-nowrap">{fmtDZD(o.total_price)}</div>
+              </div>
+              <div className="flex items-center justify-between mt-2">
+                <span className={`text-[10px] px-2 py-0.5 rounded-full ${STATUS_COLOR[o.status]}`}>{STATUS_AR[o.status]}</span>
+                <span className="text-[10px] text-muted-foreground">{fmtDate(o.created_at)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        {/* Desktop table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-xs text-muted-foreground text-right">
               <tr><th className="p-2">الاسم</th><th className="p-2">الولاية</th><th className="p-2">الكمية</th><th className="p-2">الإجمالي</th><th className="p-2">الحالة</th><th className="p-2">التاريخ</th></tr>
