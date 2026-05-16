@@ -77,22 +77,22 @@ function Countdown() {
   const m = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
   const s = String(secs % 60).padStart(2, "0");
   return (
-    <div className="bg-[#F1EDE4] py-6 md:py-8 px-4 border-y border-[#E5E1D8]">
-      <div className="container mx-auto flex items-center justify-between gap-4 max-w-3xl">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-            <Clock className="w-5 h-5 text-gold" />
+    <div className="bg-[#F1EDE4] py-5 md:py-8 px-4 border-y border-[#E5E1D8]">
+      <div className="container mx-auto flex items-center justify-between gap-3 max-w-3xl">
+        <div className="flex items-center gap-2 md:gap-3 min-w-0">
+          <div className="w-9 h-9 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
+            <Clock className="w-4 h-4 md:w-5 md:h-5 text-gold" />
           </div>
-          <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-ink truncate">
+          <span className="text-[9px] md:text-xs font-black uppercase tracking-[0.15em] md:tracking-widest text-ink truncate">
             العرض ينتهي بعد
           </span>
         </div>
-        <div className="flex gap-2 md:gap-3 text-xl md:text-3xl font-black text-ink tabular-nums">
-          <div className="flex flex-col items-center"><span>{h}</span><span className="text-[8px] text-muted-foreground font-bold uppercase mt-0.5">ساعة</span></div>
-          <span className="text-gold">:</span>
-          <div className="flex flex-col items-center"><span>{m}</span><span className="text-[8px] text-muted-foreground font-bold uppercase mt-0.5">دقيقة</span></div>
-          <span className="text-gold">:</span>
-          <div className="flex flex-col items-center"><span>{s}</span><span className="text-[8px] text-muted-foreground font-bold uppercase mt-0.5">ثانية</span></div>
+        <div className="flex gap-1.5 md:gap-3 text-lg md:text-3xl font-black text-ink tabular-nums shrink-0">
+          <div className="flex flex-col items-center min-w-[2ch]"><span>{h}</span><span className="text-[7px] md:text-[8px] text-muted-foreground font-bold uppercase mt-0.5">ساعة</span></div>
+          <span className="text-gold leading-none">:</span>
+          <div className="flex flex-col items-center min-w-[2ch]"><span>{m}</span><span className="text-[7px] md:text-[8px] text-muted-foreground font-bold uppercase mt-0.5">دقيقة</span></div>
+          <span className="text-gold leading-none">:</span>
+          <div className="flex flex-col items-center min-w-[2ch]"><span>{s}</span><span className="text-[7px] md:text-[8px] text-muted-foreground font-bold uppercase mt-0.5">ثانية</span></div>
         </div>
       </div>
     </div>
