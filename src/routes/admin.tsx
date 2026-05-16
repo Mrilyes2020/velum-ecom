@@ -135,6 +135,7 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
           {tab === "orders" && <OrdersTab />}
           {tab === "settings" && <SettingsTab />}
           {tab === "content" && <ContentTab />}
+          {tab === "sections" && <SectionsTab />}
           {tab === "promo" && <PromoTab />}
         </div>
       </main>
