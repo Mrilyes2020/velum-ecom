@@ -140,10 +140,13 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden sm:inline text-[11px] text-cream/60">{new Date().toLocaleDateString("ar-DZ")}</span>
-            <button onClick={onLogout}
-                    className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-cream/10 hover:bg-cream/20 text-xs">
-              <LogOut className="w-3.5 h-3.5" />خروج
-            </button>
+          <Link to="/" className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-gold/10 hover:bg-gold/20 text-xs text-gold transition">
+            <Home className="w-3.5 h-3.5" />الموقع
+          </Link>
+          <button onClick={onLogout}
+                  className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-cream/10 hover:bg-cream/20 text-xs">
+            <LogOut className="w-3.5 h-3.5" />خروج
+          </button>
           </div>
         </header>
 
