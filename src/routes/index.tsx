@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import heroImg from "@/assets/velum-hero.png";
 import ingredientsImg from "@/assets/velum-ingredients.png";
+import capsulesImg from "@/assets/velum-capsules.png";
+import darkImg from "@/assets/velum-dark.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store-context";
 import { WILAYAS } from "@/lib/wilayas";
@@ -174,18 +176,30 @@ const BENEFITS = [
 ];
 function Benefits() {
   return (
-    <section className="py-14 md:py-24 bg-background">
-      <div className="container mx-auto px-5 max-w-3xl">
-        <SectionHeader kicker="المميزات" title="لماذا VELUM؟" />
+    <section className="relative py-14 md:py-24 overflow-hidden">
+      <img
+        src={darkImg}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-ink/70" />
+      <div className="relative container mx-auto px-5 max-w-3xl">
+        <div className="text-center mb-8 md:mb-10">
+          <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">المميزات</div>
+          <h2 className="text-2xl md:text-4xl font-black text-white">لماذا VELUM؟</h2>
+        </div>
         <div className="space-y-4 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
           {BENEFITS.map((b, i) => (
             <div
               key={b.title}
-              className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl ${
+              className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl ${
                 i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
               }`}
             >
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/50 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
               <div className="relative flex md:block items-start gap-4">
                 <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center md:mb-6 shadow-sm border border-[#E5E1D8] shrink-0">
                   <b.icon className="w-5 h-5 md:w-6 md:h-6 text-gold" />
@@ -430,8 +444,18 @@ function OrderSection() {
           {/* product card */}
           <div className="bg-card text-foreground rounded-3xl p-5 md:p-6 shadow-2xl">
             <div className="flex md:block gap-4 items-center">
-              <img src={heroImg} alt="VELUM" width={400} height={400} loading="lazy"
-                   className="rounded-2xl w-28 h-28 md:w-full md:h-auto object-cover shrink-0" />
+              <div className="md:w-full overflow-hidden rounded-2xl shrink-0 group">
+                <img
+                  src={capsulesImg}
+                  alt="كبسولات VELUM النباتية"
+                  width={800}
+                  height={800}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-28 h-28 md:w-full md:h-64 object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                />
+              </div>
+              <p className="hidden md:block text-center text-xs text-muted-foreground mt-2 italic">60 كبسولة نباتية طبيعية</p>
               <div className="flex-1 md:mt-4">
                 <h3 className="text-xl md:text-2xl font-black">VELUM</h3>
                 <p className="text-xs md:text-sm text-muted-foreground">تركيبة بريبيوتك — 60 كبسولة</p>
@@ -585,11 +609,20 @@ function Contact() {
 /* ---------- footer ---------- */
 function Footer() {
   return (
-    <footer className="bg-ink text-cream py-10 border-t border-cream/10">
-      <div className="container mx-auto px-4 text-center">
+    <footer className="relative bg-ink text-cream py-14 border-t border-cream/10 overflow-hidden">
+      <img
+        src={darkImg}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-ink/60" />
+      <div className="relative container mx-auto px-4 text-center">
         <div className="text-3xl font-black text-gold">VELUM</div>
-        <p className="text-sm text-cream/70 italic mt-1">طبيعي. فعّال. موثوق.</p>
-        <p className="text-xs text-cream/50 mt-6">© 2024 VELUM. جميع الحقوق محفوظة.</p>
+        <p className="text-sm text-cream/80 italic mt-1">طبيعي. فعّال. موثوق.</p>
+        <p className="text-xs text-cream/60 mt-6">© 2024 VELUM. جميع الحقوق محفوظة.</p>
       </div>
     </footer>
   );
