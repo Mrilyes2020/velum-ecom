@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
   LayoutDashboard, ShoppingBag, Settings as SettingsIcon, Tag,
-  LogOut, Loader2, Search, Lock, FileText, Layers, Trash2, Plus,
+  LogOut, Loader2, Search, Lock, FileText, Layers, Trash2, Plus, Home,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store-context";
@@ -122,8 +122,11 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
             </button>
           ))}
         </nav>
+        <Link to="/" className="m-3 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-gold/10 hover:bg-gold/20 text-sm text-gold transition">
+          <Home className="w-4 h-4" /><span>الموقع</span>
+        </Link>
         <button onClick={onLogout}
-                className="m-3 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-cream/10 hover:bg-cream/20 text-sm">
+                className="m-3 mt-0 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-cream/10 hover:bg-cream/20 text-sm">
           <LogOut className="w-4 h-4" /><span>خروج</span>
         </button>
       </aside>
@@ -137,10 +140,13 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden sm:inline text-[11px] text-cream/60">{new Date().toLocaleDateString("ar-DZ")}</span>
-            <button onClick={onLogout}
-                    className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-cream/10 hover:bg-cream/20 text-xs">
-              <LogOut className="w-3.5 h-3.5" />خروج
-            </button>
+          <Link to="/" className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-gold/10 hover:bg-gold/20 text-xs text-gold transition">
+            <Home className="w-3.5 h-3.5" />الموقع
+          </Link>
+          <button onClick={onLogout}
+                  className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-cream/10 hover:bg-cream/20 text-xs">
+            <LogOut className="w-3.5 h-3.5" />خروج
+          </button>
           </div>
         </header>
 
