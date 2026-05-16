@@ -714,6 +714,7 @@ function LandingPage() {
       <LiveSocialProof />
       <Hero />
       <Countdown />
+      <Gallery />
       <Benefits />
       <Ingredients />
       <HowToUse />
