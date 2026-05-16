@@ -61,33 +61,39 @@ export type Database = {
       }
       settings: {
         Row: {
+          content: Json
           facebook_url: string
           id: number
           instagram_url: string
           phone: string
           price: number
+          price_30: number
           promo_active: boolean
           promo_code: string
           promo_discount: number
           whatsapp_clicks: number
         }
         Insert: {
+          content?: Json
           facebook_url?: string
           id?: number
           instagram_url?: string
           phone?: string
           price?: number
+          price_30?: number
           promo_active?: boolean
           promo_code?: string
           promo_discount?: number
           whatsapp_clicks?: number
         }
         Update: {
+          content?: Json
           facebook_url?: string
           id?: number
           instagram_url?: string
           phone?: string
           price?: number
+          price_30?: number
           promo_active?: boolean
           promo_code?: string
           promo_discount?: number
