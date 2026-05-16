@@ -317,12 +317,13 @@ function OrdersTab() {
 function SettingsTab() {
   const { settings, updateLocal, refresh } = useStore();
   const [price, setPrice] = useState(settings?.price ?? 2500);
+  const [price30, setPrice30] = useState(settings?.price_30 ?? 1500);
   const [phone, setPhone] = useState(settings?.phone ?? "");
   const [fb, setFb] = useState(settings?.facebook_url ?? "");
   const [ig, setIg] = useState(settings?.instagram_url ?? "");
   useEffect(() => {
     if (!settings) return;
-    setPrice(settings.price); setPhone(settings.phone);
+    setPrice(settings.price); setPrice30(settings.price_30); setPhone(settings.phone);
     setFb(settings.facebook_url); setIg(settings.instagram_url);
   }, [settings]);
 
@@ -338,10 +339,18 @@ function SettingsTab() {
   return (
     <div className="grid md:grid-cols-2 gap-5">
       <div className="bg-card border rounded-2xl p-5">
-        <h3 className="font-bold mb-3">تعديل السعر</h3>
+        <h3 className="font-bold mb-1">سعر عبوة 60 كبسولة</h3>
+        <p className="text-xs text-muted-foreground mb-3">السعر بالدينار الجزائري</p>
         <input type="number" value={price} onChange={(e) => setPrice(+e.target.value)}
                className="w-full border rounded-md px-3 py-2 bg-background" />
-        <button onClick={() => save({ price }, "السعر")} className="btn-gold mt-3 rounded-md px-5 py-2">حفظ</button>
+        <button onClick={() => save({ price }, "سعر 60")} className="btn-gold mt-3 rounded-md px-5 py-2">حفظ</button>
+      </div>
+      <div className="bg-card border rounded-2xl p-5">
+        <h3 className="font-bold mb-1">سعر عبوة 30 كبسولة</h3>
+        <p className="text-xs text-muted-foreground mb-3">السعر بالدينار الجزائري</p>
+        <input type="number" value={price30} onChange={(e) => setPrice30(+e.target.value)}
+               className="w-full border rounded-md px-3 py-2 bg-background" />
+        <button onClick={() => save({ price_30: price30 }, "سعر 30")} className="btn-gold mt-3 rounded-md px-5 py-2">حفظ</button>
       </div>
       <div className="bg-card border rounded-2xl p-5">
         <h3 className="font-bold mb-3">رقم الهاتف</h3>
@@ -349,7 +358,7 @@ function SettingsTab() {
                className="w-full border rounded-md px-3 py-2 bg-background" />
         <button onClick={() => save({ phone }, "رقم الهاتف")} className="btn-gold mt-3 rounded-md px-5 py-2">حفظ</button>
       </div>
-      <div className="bg-card border rounded-2xl p-5 md:col-span-2">
+      <div className="bg-card border rounded-2xl p-5">
         <h3 className="font-bold mb-3">روابط التواصل</h3>
         <label className="text-sm">Facebook URL</label>
         <input value={fb} onChange={(e) => setFb(e.target.value)}
@@ -359,6 +368,89 @@ function SettingsTab() {
                className="w-full border rounded-md px-3 py-2 bg-background" />
         <button onClick={() => save({ facebook_url: fb, instagram_url: ig }, "روابط التواصل")}
                 className="btn-gold mt-3 rounded-md px-5 py-2">حفظ</button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- content (editable site texts) ---------- */
+const CONTENT_FIELDS: { key: keyof import("@/lib/store-context").SiteContent; label: string; long?: boolean }[] = [
+  { key: "hero_badge", label: "شارة الهيرو (أعلى العنوان)" },
+  { key: "hero_title", label: "العنوان الرئيسي" },
+  { key: "hero_subtitle", label: "العنوان الفرعي" },
+  { key: "hero_tagline", label: "الشعار القصير" },
+  { key: "hero_description", label: "الوصف في الهيرو", long: true },
+  { key: "hero_cta", label: "نص زر الطلب الرئيسي" },
+  { key: "product_name", label: "اسم المنتج" },
+  { key: "product_short_desc", label: "وصف المنتج القصير" },
+  { key: "order_title", label: "عنوان قسم الطلب" },
+  { key: "order_subtitle", label: "نص أسفل عنوان الطلب" },
+  { key: "footer_tagline", label: "شعار الفوتر" },
+  { key: "footer_copyright", label: "نص حقوق النشر" },
+];
+
+function ContentTab() {
+  const { settings, updateLocal, refresh } = useStore();
+  const [draft, setDraft] = useState(settings?.content);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (settings?.content) setDraft(settings.content);
+  }, [settings]);
+
+  if (!settings || !draft) return <Loader2 className="w-6 h-6 animate-spin text-gold" />;
+
+  const setField = (k: keyof typeof draft, v: string) =>
+    setDraft({ ...draft, [k]: v });
+
+  const saveAll = async () => {
+    setSaving(true);
+    updateLocal({ content: draft });
+    const { error } = await supabase.from("settings").update({ content: draft }).eq("id", 1);
+    setSaving(false);
+    if (error) { toast.error("فشل الحفظ"); refresh(); }
+    else toast.success("تم حفظ النصوص بنجاح ✓");
+  };
+
+  return (
+    <div className="space-y-4 max-w-3xl">
+      <div className="bg-card border rounded-2xl p-5">
+        <h3 className="font-bold mb-1">تعديل نصوص الموقع</h3>
+        <p className="text-xs text-muted-foreground">قم بتحرير النصوص الظاهرة للزوار. التغييرات تظهر مباشرة بعد الحفظ.</p>
+      </div>
+
+      <div className="bg-card border rounded-2xl p-5 space-y-4">
+        {CONTENT_FIELDS.map((f) => (
+          <div key={f.key}>
+            <label className="text-sm font-semibold">{f.label}</label>
+            {f.long ? (
+              <textarea
+                value={draft[f.key]}
+                onChange={(e) => setField(f.key, e.target.value)}
+                rows={3}
+                className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm resize-none"
+              />
+            ) : (
+              <input
+                value={draft[f.key]}
+                onChange={(e) => setField(f.key, e.target.value)}
+                className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="flex gap-2">
+        <button onClick={saveAll} disabled={saving}
+                className="btn-gold rounded-md px-6 py-3 font-bold disabled:opacity-60 flex items-center gap-2">
+          {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+          حفظ كل التغييرات
+        </button>
+        <button onClick={() => setDraft(settings.content)}
+                className="rounded-md px-6 py-3 border font-bold hover:bg-muted">
+          استعادة
+        </button>
       </div>
     </div>
   );
