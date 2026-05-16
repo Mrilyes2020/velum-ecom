@@ -425,14 +425,14 @@ function ContentTab() {
             <label className="text-sm font-semibold">{f.label}</label>
             {f.long ? (
               <textarea
-                value={draft[f.key]}
+                value={(draft[f.key] as string) ?? ""}
                 onChange={(e) => setField(f.key, e.target.value)}
                 rows={3}
                 className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm resize-none"
               />
             ) : (
               <input
-                value={draft[f.key]}
+                value={(draft[f.key] as string) ?? ""}
                 onChange={(e) => setField(f.key, e.target.value)}
                 className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
               />
