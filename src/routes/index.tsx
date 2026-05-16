@@ -258,13 +258,13 @@ const BEFORE = ["انتفاخ مزعج", "هضم بطيء", "تعب متكرر",
 const AFTER = ["راحة في المعدة", "هضم أفضل وأسرع", "طاقة وحيوية", "مناعة أقوى"];
 function BeforeAfter() {
   return (
-    <section className="py-20 bg-card">
-      <div className="container mx-auto px-4">
+    <section className="py-14 md:py-20 bg-card">
+      <div className="container mx-auto px-5">
         <SectionHeader kicker="النتائج" title="قبل و بعد 30 يوم" />
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          <div className="rounded-2xl border-2 border-destructive/30 p-6 bg-destructive/5">
-            <h3 className="font-bold text-lg mb-4 text-destructive">قبل الاستخدام</h3>
-            <ul className="space-y-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto">
+          <div className="rounded-2xl border-2 border-destructive/30 p-5 md:p-6 bg-destructive/5">
+            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-destructive">قبل الاستخدام</h3>
+            <ul className="space-y-2.5 md:space-y-3">
               {BEFORE.map((b) => (
                 <li key={b} className="flex items-center gap-2 text-sm">
                   <X className="w-5 h-5 text-destructive shrink-0" /> {b}
@@ -272,9 +272,9 @@ function BeforeAfter() {
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl border-2 border-gold p-6 bg-gold/5">
-            <h3 className="font-bold text-lg mb-4 text-gold">بعد 30 يوم</h3>
-            <ul className="space-y-3">
+          <div className="rounded-2xl border-2 border-gold p-5 md:p-6 bg-gold/5">
+            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-gold">بعد 30 يوم</h3>
+            <ul className="space-y-2.5 md:space-y-3">
               {AFTER.map((b) => (
                 <li key={b} className="flex items-center gap-2 text-sm">
                   <Check className="w-5 h-5 text-gold shrink-0" /> {b}
