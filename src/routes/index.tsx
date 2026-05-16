@@ -453,7 +453,8 @@ function OrderSection() {
   const [successId, setSuccessId] = useState<string | null>(null);
 
   const basePrice = settings?.price ?? 2500;
-  const price = pack === 60 ? basePrice : Math.round(basePrice / 2);
+  const price30 = settings?.price_30 ?? Math.round(basePrice / 2);
+  const price = pack === 60 ? basePrice : price30;
   const subtotal = price * qty;
   const discountAmount = appliedPromo ? Math.round(subtotal * (appliedPromo.discount / 100)) : 0;
   const total = subtotal - discountAmount;
