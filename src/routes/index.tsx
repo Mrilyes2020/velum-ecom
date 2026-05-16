@@ -104,6 +104,8 @@ function Countdown() {
 
 /* ---------- hero ---------- */
 function Hero() {
+  const { settings } = useStore();
+  const c = settings?.content;
   const scrollOrder = () =>
     document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
   return (
@@ -130,15 +132,15 @@ function Hero() {
           {/* content */}
           <div className="text-center md:text-right fade-in-up md:order-1">
             <span className="inline-block py-1 px-4 rounded-full border border-gold/40 text-gold text-[9px] md:text-[10px] font-black tracking-[0.25em] mb-4 md:mb-6 bg-white/60 backdrop-blur">
-              VELUM SUPPLEMENTS
+              {c?.hero_badge || "VELUM SUPPLEMENTS"}
             </span>
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-3 md:mb-4 text-ink leading-none">
-              VELUM
+              {c?.hero_title || "VELUM"}
             </h1>
-            <p className="text-base md:text-xl font-bold text-gold mb-2 md:mb-3">تركيبة بريبيوتك ومضادات الأكسدة</p>
-            <p className="text-gold/80 italic text-sm md:text-base mb-4 md:mb-5">طبيعي. فعّال. موثوق.</p>
+            <p className="text-base md:text-xl font-bold text-gold mb-2 md:mb-3">{c?.hero_subtitle}</p>
+            <p className="text-gold/80 italic text-sm md:text-base mb-4 md:mb-5">{c?.hero_tagline}</p>
             <p className="text-muted-foreground leading-relaxed text-sm md:text-base max-w-md mx-auto md:mx-0 mb-6 md:mb-8">
-              مكمل غذائي فريد يجمع فاكهة التنين والرمان وبذور الكتان لدعم صحة الجهاز الهضمي والأمعاء.
+              {c?.hero_description}
             </p>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2 mb-8 md:mb-10">
@@ -153,7 +155,7 @@ function Hero() {
               onClick={scrollOrder}
               className="w-full max-w-sm md:w-auto md:px-10 bg-ink text-white font-black py-4 md:py-5 rounded-2xl shadow-xl hover:bg-gold hover:text-ink transition-all duration-300 active:scale-95"
             >
-              اطلب المنتج الآن
+              {c?.hero_cta || "اطلب المنتج الآن"}
             </button>
           </div>
         </div>
