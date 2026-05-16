@@ -52,13 +52,13 @@ function LiveSocialProof() {
 
   const p = SOCIAL_NAMES[idx];
   return (
-    <div className="sticky top-0 z-40 w-full bg-ink text-gold py-2.5 px-4 text-center text-[10px] md:text-xs font-bold tracking-[0.2em] border-b border-gold/20 uppercase">
-      <span className="inline-flex items-center justify-center gap-2">
-        <span className="relative flex h-2 w-2">
+    <div className="sticky top-0 z-40 w-full bg-ink text-gold py-2 px-3 text-center text-[9px] sm:text-[10px] md:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] border-b border-gold/20 uppercase">
+      <span className="inline-flex items-center justify-center gap-1.5 sm:gap-2">
+        <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-gold" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-gold" />
         </span>
-        <span><b>{visitors}</b> شخص يشاهد المنتج الآن</span>
+        <span><b>{visitors}</b> يشاهد الآن</span>
         <span className="hidden sm:inline opacity-50 mx-2">•</span>
         <span key={p.name} className="hidden sm:inline opacity-90">{p.name} من {p.city} طلب VELUM</span>
       </span>
