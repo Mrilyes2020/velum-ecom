@@ -307,58 +307,83 @@ function OrdersTab() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="bg-card border rounded-2xl p-4 flex flex-wrap gap-3 items-center">
-        <div className="relative flex-1 min-w-[200px]">
+    <div className="space-y-3 md:space-y-4">
+      <div className="bg-card border rounded-2xl p-3 md:p-4 flex flex-col sm:flex-row gap-2 md:gap-3 sm:items-center">
+        <div className="relative flex-1">
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="بحث: الاسم، الهاتف، الولاية"
-                 className="w-full border rounded-md pr-10 pl-3 py-2 bg-background text-sm" />
+                 className="w-full border rounded-md pr-10 pl-3 py-2.5 bg-background text-sm" />
         </div>
         <select value={statusF} onChange={(e) => setStatusF(e.target.value)}
-                className="border rounded-md px-3 py-2 bg-background text-sm">
+                className="border rounded-md px-3 py-2.5 bg-background text-sm sm:w-auto">
           <option value="">كل الحالات</option>
           {STATUSES.map((s) => <option key={s} value={s}>{STATUS_AR[s]}</option>)}
         </select>
       </div>
 
-      <div className="bg-card border rounded-2xl overflow-hidden">
-        {loading ? (
-          <div className="p-8 text-center"><Loader2 className="w-6 h-6 animate-spin text-gold mx-auto" /></div>
-        ) : filtered.length === 0 ? (
-          <div className="p-8 text-center text-muted-foreground text-sm">لا توجد طلبات</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted text-xs text-right">
-                <tr>
-                  <th className="p-3">الاسم</th><th className="p-3">الهاتف</th><th className="p-3">الولاية</th>
-                  <th className="p-3">الكمية</th><th className="p-3">الإجمالي</th><th className="p-3">كود الخصم</th>
-                  <th className="p-3">الحالة</th><th className="p-3">التاريخ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map((o) => (
-                  <tr key={o.id} className="border-t hover:bg-muted/40">
-                    <td className="p-3 font-medium">{o.customer_name}</td>
-                    <td className="p-3 text-muted-foreground">{o.customer_phone}</td>
-                    <td className="p-3">{o.wilaya}</td>
-                    <td className="p-3">{o.quantity}</td>
-                    <td className="p-3 font-bold text-gold">{fmtDZD(o.total_price)}</td>
-                    <td className="p-3 text-xs">{o.promo_code_used || "—"}</td>
-                    <td className="p-3">
-                      <select value={o.status} onChange={(e) => updateStatus(o.id, e.target.value)}
-                              className={`text-xs px-2 py-1 rounded-full border-0 ${STATUS_COLOR[o.status]}`}>
-                        {STATUSES.map((s) => <option key={s} value={s}>{STATUS_AR[s]}</option>)}
-                      </select>
-                    </td>
-                    <td className="p-3 text-xs text-muted-foreground">{fmtDate(o.created_at)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+      {loading ? (
+        <div className="bg-card border rounded-2xl p-8 text-center"><Loader2 className="w-6 h-6 animate-spin text-gold mx-auto" /></div>
+      ) : filtered.length === 0 ? (
+        <div className="bg-card border rounded-2xl p-8 text-center text-muted-foreground text-sm">لا توجد طلبات</div>
+      ) : (
+        <>
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-2">
+            {filtered.map((o) => (
+              <div key={o.id} className="bg-card border rounded-2xl p-3 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-bold text-sm truncate">{o.customer_name}</div>
+                    <a href={`tel:${o.customer_phone}`} className="text-xs text-muted-foreground" dir="ltr">{o.customer_phone}</a>
+                    <div className="text-[11px] text-muted-foreground mt-0.5">{o.wilaya} • {o.quantity}× {o.promo_code_used ? `• ${o.promo_code_used}` : ""}</div>
+                  </div>
+                  <div className="text-gold font-black text-sm whitespace-nowrap">{fmtDZD(o.total_price)}</div>
+                </div>
+                <div className="flex items-center justify-between gap-2 pt-1 border-t">
+                  <select value={o.status} onChange={(e) => updateStatus(o.id, e.target.value)}
+                          className={`text-[11px] px-2 py-1 rounded-full border-0 font-medium ${STATUS_COLOR[o.status]}`}>
+                    {STATUSES.map((s) => <option key={s} value={s}>{STATUS_AR[s]}</option>)}
+                  </select>
+                  <span className="text-[10px] text-muted-foreground">{fmtDate(o.created_at)}</span>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
+          {/* Desktop table */}
+          <div className="hidden md:block bg-card border rounded-2xl overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-muted text-xs text-right">
+                  <tr>
+                    <th className="p-3">الاسم</th><th className="p-3">الهاتف</th><th className="p-3">الولاية</th>
+                    <th className="p-3">الكمية</th><th className="p-3">الإجمالي</th><th className="p-3">كود الخصم</th>
+                    <th className="p-3">الحالة</th><th className="p-3">التاريخ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((o) => (
+                    <tr key={o.id} className="border-t hover:bg-muted/40">
+                      <td className="p-3 font-medium">{o.customer_name}</td>
+                      <td className="p-3 text-muted-foreground">{o.customer_phone}</td>
+                      <td className="p-3">{o.wilaya}</td>
+                      <td className="p-3">{o.quantity}</td>
+                      <td className="p-3 font-bold text-gold">{fmtDZD(o.total_price)}</td>
+                      <td className="p-3 text-xs">{o.promo_code_used || "—"}</td>
+                      <td className="p-3">
+                        <select value={o.status} onChange={(e) => updateStatus(o.id, e.target.value)}
+                                className={`text-xs px-2 py-1 rounded-full border-0 ${STATUS_COLOR[o.status]}`}>
+                          {STATUSES.map((s) => <option key={s} value={s}>{STATUS_AR[s]}</option>)}
+                        </select>
+                      </td>
+                      <td className="p-3 text-xs text-muted-foreground">{fmtDate(o.created_at)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
