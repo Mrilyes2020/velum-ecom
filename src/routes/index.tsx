@@ -402,32 +402,36 @@ function OrderSection() {
   };
 
   return (
-    <section id="order" className="py-20 md:py-24 bg-ink text-cream rounded-t-[3rem]">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <div className="text-gold text-[10px] tracking-[0.3em] uppercase mb-3 font-black">اطلب الآن</div>
-          <h2 className="text-3xl md:text-4xl font-black text-white">احصل على VELUM إلى باب منزلك</h2>
-          <p className="text-gold text-sm font-bold mt-3">الدفع عند الاستلام</p>
+    <section id="order" className="py-14 md:py-24 bg-ink text-cream rounded-t-[2.5rem] md:rounded-t-[3rem] pb-28 md:pb-24">
+      <div className="container mx-auto px-5">
+        <div className="text-center mb-8 md:mb-12">
+          <div className="text-gold text-[10px] tracking-[0.3em] uppercase mb-2 md:mb-3 font-black">اطلب الآن</div>
+          <h2 className="text-2xl md:text-4xl font-black text-white">احصل على VELUM إلى باب منزلك</h2>
+          <p className="text-gold text-sm font-bold mt-2 md:mt-3">الدفع عند الاستلام</p>
         </div>
-        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-5 md:gap-6 max-w-5xl mx-auto">
           {/* product card */}
-          <div className="bg-card text-foreground rounded-3xl p-6 shadow-2xl">
-            <img src={heroImg} alt="VELUM" width={400} height={400} loading="lazy"
-                 className="rounded-2xl w-full" />
-            <h3 className="text-2xl font-black mt-4">VELUM</h3>
-            <p className="text-sm text-muted-foreground">تركيبة بريبيوتك ومضادات الأكسدة — 60 كبسولة</p>
-            <div className="mt-4 text-3xl font-black text-gold">{fmtDZD(price)}</div>
+          <div className="bg-card text-foreground rounded-3xl p-5 md:p-6 shadow-2xl">
+            <div className="flex md:block gap-4 items-center">
+              <img src={heroImg} alt="VELUM" width={400} height={400} loading="lazy"
+                   className="rounded-2xl w-28 h-28 md:w-full md:h-auto object-cover shrink-0" />
+              <div className="flex-1 md:mt-4">
+                <h3 className="text-xl md:text-2xl font-black">VELUM</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">تركيبة بريبيوتك — 60 كبسولة</p>
+                <div className="mt-1 md:mt-4 text-2xl md:text-3xl font-black text-gold">{fmtDZD(price)}</div>
+              </div>
+            </div>
 
-            <div className="mt-4 flex items-center gap-3">
-              <span className="text-sm">الكمية:</span>
+            <div className="mt-5 flex items-center justify-between gap-3">
+              <span className="text-sm font-semibold">الكمية:</span>
               <div className="flex items-center border rounded-full">
                 <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}
-                        className="w-9 h-9 flex items-center justify-center hover:bg-muted rounded-full">
+                        className="w-10 h-10 flex items-center justify-center hover:bg-muted rounded-full active:scale-95">
                   <Minus className="w-4 h-4" />
                 </button>
-                <span className="w-10 text-center font-bold">{qty}</span>
+                <span className="w-12 text-center font-bold text-lg">{qty}</span>
                 <button type="button" onClick={() => setQty((q) => Math.min(10, q + 1))}
-                        className="w-9 h-9 flex items-center justify-center hover:bg-muted rounded-full">
+                        className="w-10 h-10 flex items-center justify-center hover:bg-muted rounded-full active:scale-95">
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
@@ -435,12 +439,12 @@ function OrderSection() {
 
             <div className="mt-4">
               <label className="text-sm font-semibold">كود الخصم</label>
-              <div className="flex gap-2 mt-1">
+              <div className="flex gap-2 mt-1.5">
                 <input value={promoInput} onChange={(e) => setPromoInput(e.target.value)}
                        placeholder="VELUM10"
-                       className="flex-1 border rounded-md px-3 py-2 bg-background" />
+                       className="flex-1 border rounded-xl px-4 py-3 bg-background text-base" />
                 <button type="button" onClick={applyPromo}
-                        className="btn-gold rounded-md px-4">تطبيق</button>
+                        className="btn-gold rounded-xl px-5 text-sm font-bold">تطبيق</button>
               </div>
               {promoMsg && (
                 <p className={`text-xs mt-2 ${promoMsg.ok ? "text-green-600" : "text-destructive"}`}>
@@ -449,7 +453,7 @@ function OrderSection() {
               )}
             </div>
 
-            <div className="mt-6 pt-4 border-t space-y-1 text-sm">
+            <div className="mt-5 pt-4 border-t space-y-1.5 text-sm">
               <div className="flex justify-between"><span>المجموع</span><span>{fmtDZD(subtotal)}</span></div>
               {discountAmount > 0 && (
                 <div className="flex justify-between text-green-600">
@@ -463,23 +467,23 @@ function OrderSection() {
           </div>
 
           {/* form */}
-          <form onSubmit={submit} className="bg-card text-foreground rounded-3xl p-6 shadow-2xl space-y-4">
-            <h3 className="text-xl font-black">معلومات التوصيل</h3>
+          <form onSubmit={submit} className="bg-card text-foreground rounded-3xl p-5 md:p-6 shadow-2xl space-y-4">
+            <h3 className="text-lg md:text-xl font-black">معلومات التوصيل</h3>
             <div>
               <label className="text-sm font-semibold">الاسم الكامل *</label>
               <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                     className="w-full mt-1 border rounded-md px-3 py-2 bg-background" />
+                     className="w-full mt-1.5 border rounded-xl px-4 py-3 bg-background text-base" />
             </div>
             <div>
               <label className="text-sm font-semibold">رقم الهاتف *</label>
-              <input type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              <input type="tel" inputMode="numeric" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                      placeholder="0555000000"
-                     className="w-full mt-1 border rounded-md px-3 py-2 bg-background" />
+                     className="w-full mt-1.5 border rounded-xl px-4 py-3 bg-background text-base" dir="ltr" />
             </div>
             <div>
               <label className="text-sm font-semibold">الولاية *</label>
               <select value={form.wilaya} onChange={(e) => setForm({ ...form, wilaya: e.target.value })}
-                      className="w-full mt-1 border rounded-md px-3 py-2 bg-background">
+                      className="w-full mt-1.5 border rounded-xl px-4 py-3 bg-background text-base">
                 <option value="">اختر الولاية</option>
                 {WILAYAS.map((w) => <option key={w} value={w}>{w}</option>)}
               </select>
@@ -488,12 +492,12 @@ function OrderSection() {
               <label className="text-sm font-semibold">ملاحظات</label>
               <textarea value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })}
                         rows={3}
-                        className="w-full mt-1 border rounded-md px-3 py-2 bg-background" />
+                        className="w-full mt-1.5 border rounded-xl px-4 py-3 bg-background text-base resize-none" />
             </div>
             <button disabled={submitting} type="submit"
-                    className="btn-gold w-full rounded-full py-4 text-lg disabled:opacity-60 flex items-center justify-center gap-2">
+                    className="btn-gold w-full rounded-2xl py-4 text-base md:text-lg font-black disabled:opacity-60 flex items-center justify-center gap-2 active:scale-[0.98]">
               {submitting && <Loader2 className="w-5 h-5 animate-spin" />}
-              تأكيد الطلب
+              تأكيد الطلب — {fmtDZD(total)}
             </button>
           </form>
         </div>
