@@ -144,7 +144,10 @@ function Hero() {
             </p>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2 mb-8 md:mb-10">
-              {["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"].map((t) => (
+              {(c?.hero_badges && c.hero_badges.length > 0
+                ? c.hero_badges
+                : ["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"]
+              ).map((t) => (
                 <span key={t} className="text-[10px] md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1.5 bg-white border border-[#E5E1D8] rounded-lg text-ink">
                   {t}
                 </span>
@@ -244,12 +247,16 @@ function SectionHeader({ kicker, title }: { kicker: string; title: string }) {
 }
 
 /* ---------- benefits ---------- */
-const BENEFITS = [
-  { icon: Sparkles, title: "دعم الهضم الصحي", desc: "ألياف بريبيوتيك تعزز توازن الميكروبيوم وراحة المعدة." },
-  { icon: ShieldCheck, title: "تقوية المناعة", desc: "مضادات أكسدة قوية تحمي الخلايا من الإجهاد التأكسدي." },
-  { icon: Zap, title: "طاقة طبيعية", desc: "مزيج نباتي يدعم الحيوية والنشاط اليومي بدون منبهات." },
+const BENEFIT_ICONS = [Sparkles, ShieldCheck, Zap, Heart, Leaf, Star];
+const DEFAULT_BENEFITS = [
+  { title: "دعم الهضم الصحي", desc: "ألياف بريبيوتيك تعزز توازن الميكروبيوم وراحة المعدة." },
+  { title: "تقوية المناعة", desc: "مضادات أكسدة قوية تحمي الخلايا من الإجهاد التأكسدي." },
+  { title: "طاقة طبيعية", desc: "مزيج نباتي يدعم الحيوية والنشاط اليومي بدون منبهات." },
 ];
 function Benefits() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const items = c?.benefits && c.benefits.length > 0 ? c.benefits : DEFAULT_BENEFITS;
   return (
     <section className="relative py-14 md:py-24 overflow-hidden">
       <img
@@ -264,28 +271,31 @@ function Benefits() {
       <div className="relative container mx-auto px-5 max-w-3xl">
         <div className="text-center mb-8 md:mb-10">
           <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">المميزات</div>
-          <h2 className="text-2xl md:text-4xl font-black text-white">لماذا VELUM؟</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white">{c?.benefits_title || "لماذا VELUM؟"}</h2>
         </div>
         <div className="space-y-4 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
-          {BENEFITS.map((b, i) => (
-            <div
-              key={b.title}
-              className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl ${
-                i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
-              }`}
-            >
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="relative flex md:block items-start gap-4">
-                <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center md:mb-6 shadow-sm border border-[#E5E1D8] shrink-0">
-                  <b.icon className="w-5 h-5 md:w-6 md:h-6 text-gold" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl font-black mb-2 md:mb-3">{b.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+          {items.map((b, i) => {
+            const Icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length];
+            return (
+              <div
+                key={b.title + i}
+                className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl ${
+                  i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
+                }`}
+              >
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="relative flex md:block items-start gap-4">
+                  <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center md:mb-6 shadow-sm border border-[#E5E1D8] shrink-0">
+                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-gold" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-black mb-2 md:mb-3">{b.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -293,12 +303,16 @@ function Benefits() {
 }
 
 /* ---------- ingredients ---------- */
-const INGREDIENTS = [
-  { icon: Heart, name: "فاكهة التنين", desc: "غنية بالألياف ومضادات الأكسدة لدعم صحة الأمعاء." },
-  { icon: Apple, name: "الرمان", desc: "مصدر طبيعي للبوليفينولات التي تحمي القلب والجلد." },
-  { icon: Wheat, name: "بذور الكتان", desc: "أحماض أوميغا-3 وألياف تساعد على الهضم السليم." },
+const INGREDIENT_ICONS = [Heart, Apple, Wheat, Leaf, Sparkles, Sun];
+const DEFAULT_INGREDIENTS = [
+  { name: "فاكهة التنين", desc: "غنية بالألياف ومضادات الأكسدة لدعم صحة الأمعاء." },
+  { name: "الرمان", desc: "مصدر طبيعي للبوليفينولات التي تحمي القلب والجلد." },
+  { name: "بذور الكتان", desc: "أحماض أوميغا-3 وألياف تساعد على الهضم السليم." },
 ];
 function Ingredients() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const items = c?.ingredients && c.ingredients.length > 0 ? c.ingredients : DEFAULT_INGREDIENTS;
   return (
     <section className="relative py-14 md:py-20 bg-card overflow-hidden">
       <img
@@ -314,18 +328,21 @@ function Ingredients() {
       <div className="relative container mx-auto px-5">
         <div className="text-center mb-8 md:mb-10">
           <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">المكونات</div>
-          <h2 className="text-2xl md:text-4xl font-black text-white">مكونات نباتية مختارة بعناية</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white">{c?.ingredients_title || "مكونات نباتية مختارة بعناية"}</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
-          {INGREDIENTS.map((i) => (
-            <div key={i.name} className="text-center p-5 md:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
-              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/25 text-gold flex items-center justify-center mb-3 md:mb-4 border border-gold/40">
-                <i.icon className="w-8 h-8 md:w-10 md:h-10" />
+          {items.map((it, i) => {
+            const Icon = INGREDIENT_ICONS[i % INGREDIENT_ICONS.length];
+            return (
+              <div key={it.name + i} className="text-center p-5 md:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+                <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/25 text-gold flex items-center justify-center mb-3 md:mb-4 border border-gold/40">
+                  <Icon className="w-8 h-8 md:w-10 md:h-10" />
+                </div>
+                <h3 className="font-bold text-lg md:text-xl mb-2 text-white">{it.name}</h3>
+                <p className="text-sm text-white/80 leading-relaxed">{it.desc}</p>
               </div>
-              <h3 className="font-bold text-lg md:text-xl mb-2 text-white">{i.name}</h3>
-              <p className="text-sm text-white/80 leading-relaxed">{i.desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -333,26 +350,29 @@ function Ingredients() {
 }
 
 /* ---------- how to use ---------- */
-const STEPS = [
-  { icon: Package, text: "افتح العلبة" },
-  { icon: Pill, text: "تناول كبسولتين" },
-  { icon: Sun, text: "مع كأس ماء صباحاً" },
-];
+const STEP_ICONS = [Package, Pill, Sun, Sparkles, Check];
+const DEFAULT_STEPS = ["افتح العلبة", "تناول كبسولتين", "مع كأس ماء صباحاً"];
 function HowToUse() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const items = c?.steps && c.steps.length > 0 ? c.steps : DEFAULT_STEPS;
   return (
     <section className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-5">
-        <SectionHeader kicker="طريقة الاستخدام" title="3 خطوات بسيطة" />
+        <SectionHeader kicker="طريقة الاستخدام" title={c?.steps_title || "3 خطوات بسيطة"} />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto">
-          {STEPS.map((s, i) => (
-            <div key={i} className="bg-card border rounded-2xl p-6 text-center relative">
-              <div className="absolute -top-4 right-1/2 translate-x-1/2 w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center shadow-md">
-                {i + 1}
+          {items.map((text, i) => {
+            const Icon = STEP_ICONS[i % STEP_ICONS.length];
+            return (
+              <div key={i} className="bg-card border rounded-2xl p-6 text-center relative">
+                <div className="absolute -top-4 right-1/2 translate-x-1/2 w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center shadow-md">
+                  {i + 1}
+                </div>
+                <Icon className="w-9 h-9 md:w-10 md:h-10 mx-auto text-gold mt-3 mb-3" />
+                <p className="font-semibold">{text}</p>
               </div>
-              <s.icon className="w-9 h-9 md:w-10 md:h-10 mx-auto text-gold mt-3 mb-3" />
-              <p className="font-semibold">{s.text}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -360,29 +380,33 @@ function HowToUse() {
 }
 
 /* ---------- before/after ---------- */
-const BEFORE = ["انتفاخ مزعج", "هضم بطيء", "تعب متكرر", "مناعة ضعيفة"];
-const AFTER = ["راحة في المعدة", "هضم أفضل وأسرع", "طاقة وحيوية", "مناعة أقوى"];
+const DEFAULT_BEFORE = ["انتفاخ مزعج", "هضم بطيء", "تعب متكرر", "مناعة ضعيفة"];
+const DEFAULT_AFTER = ["راحة في المعدة", "هضم أفضل وأسرع", "طاقة وحيوية", "مناعة أقوى"];
 function BeforeAfter() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const before = c?.before_list && c.before_list.length > 0 ? c.before_list : DEFAULT_BEFORE;
+  const after = c?.after_list && c.after_list.length > 0 ? c.after_list : DEFAULT_AFTER;
   return (
     <section className="py-14 md:py-20 bg-card">
       <div className="container mx-auto px-5">
         <SectionHeader kicker="النتائج" title="قبل و بعد 30 يوم" />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto">
           <div className="rounded-2xl border-2 border-destructive/30 p-5 md:p-6 bg-destructive/5">
-            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-destructive">قبل الاستخدام</h3>
+            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-destructive">{c?.before_title || "قبل الاستخدام"}</h3>
             <ul className="space-y-2.5 md:space-y-3">
-              {BEFORE.map((b) => (
-                <li key={b} className="flex items-center gap-2 text-sm">
+              {before.map((b, i) => (
+                <li key={b + i} className="flex items-center gap-2 text-sm">
                   <X className="w-5 h-5 text-destructive shrink-0" /> {b}
                 </li>
               ))}
             </ul>
           </div>
           <div className="rounded-2xl border-2 border-gold p-5 md:p-6 bg-gold/5">
-            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-gold">بعد 30 يوم</h3>
+            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-gold">{c?.after_title || "بعد 30 يوم"}</h3>
             <ul className="space-y-2.5 md:space-y-3">
-              {AFTER.map((b) => (
-                <li key={b} className="flex items-center gap-2 text-sm">
+              {after.map((b, i) => (
+                <li key={b + i} className="flex items-center gap-2 text-sm">
                   <Check className="w-5 h-5 text-gold shrink-0" /> {b}
                 </li>
               ))}
@@ -395,19 +419,22 @@ function BeforeAfter() {
 }
 
 /* ---------- testimonials ---------- */
-const REVIEWS = [
+const DEFAULT_REVIEWS = [
   { name: "سارة م.", city: "تيزي وزو", text: "بعد شهر من VELUM، هضمي تحسن كثيراً وشعرت بطاقة لم أعهدها من قبل. أنصح به بشدة!" },
   { name: "كريم ب.", city: "الجزائر العاصمة", text: "منتج ممتاز ومكونات طبيعية 100%. الانتفاخ اختفى تقريباً وأنا أتناوله بانتظام." },
   { name: "نور الدين ح.", city: "وهران", text: "جودة عالية وتوصيل سريع. سعيد جداً بالنتائج وسأكرر الطلب بدون تردد." },
 ];
 function Testimonials() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const reviews = c?.reviews && c.reviews.length > 0 ? c.reviews : DEFAULT_REVIEWS;
   return (
     <section className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-5">
-        <SectionHeader kicker="آراء العملاء" title="ماذا يقولون عن VELUM" />
+        <SectionHeader kicker="آراء العملاء" title={c?.reviews_title || "ماذا يقولون عن VELUM"} />
         <div className="md:hidden flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-5 px-5 pb-4 scrollbar-hide">
-          {REVIEWS.map((r) => (
-            <div key={r.name} className="bg-card border rounded-2xl p-5 shadow-sm shrink-0 w-[85%] snap-center">
+          {reviews.map((r, idx) => (
+            <div key={r.name + idx} className="bg-card border rounded-2xl p-5 shadow-sm shrink-0 w-[85%] snap-center">
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-gold text-gold" />
@@ -421,8 +448,8 @@ function Testimonials() {
           ))}
         </div>
         <div className="hidden md:grid grid-cols-3 gap-6">
-          {REVIEWS.map((r) => (
-            <div key={r.name} className="bg-card border rounded-2xl p-6 shadow-sm">
+          {reviews.map((r, idx) => (
+            <div key={r.name + idx} className="bg-card border rounded-2xl p-6 shadow-sm">
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-gold text-gold" />
