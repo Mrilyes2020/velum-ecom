@@ -6,7 +6,7 @@ import {
   Package, Pill, Sun, Check, X, Star, Phone, Facebook, Instagram, MessageCircle,
   Clock, Eye, MapPin, Minus, Plus, Loader2,
 } from "lucide-react";
-import heroImg from "@/assets/velum-hero.jpg";
+import heroImg from "@/assets/velum-product.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store-context";
 import { WILAYAS } from "@/lib/wilayas";
