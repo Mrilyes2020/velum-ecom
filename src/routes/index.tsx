@@ -207,16 +207,16 @@ const INGREDIENTS = [
 ];
 function Ingredients() {
   return (
-    <section className="py-20 bg-card">
-      <div className="container mx-auto px-4">
+    <section className="py-14 md:py-20 bg-card">
+      <div className="container mx-auto px-5">
         <SectionHeader kicker="المكونات" title="مكونات نباتية مختارة بعناية" />
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
           {INGREDIENTS.map((i) => (
-            <div key={i.name} className="text-center p-6">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gold/15 text-gold flex items-center justify-center mb-4">
-                <i.icon className="w-10 h-10" />
+            <div key={i.name} className="text-center p-5 md:p-6 rounded-2xl bg-background border border-[#E5E1D8]">
+              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/15 text-gold flex items-center justify-center mb-3 md:mb-4">
+                <i.icon className="w-8 h-8 md:w-10 md:h-10" />
               </div>
-              <h3 className="font-bold text-xl mb-2">{i.name}</h3>
+              <h3 className="font-bold text-lg md:text-xl mb-2">{i.name}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{i.desc}</p>
             </div>
           ))}
