@@ -170,24 +170,26 @@ const BENEFITS = [
 ];
 function Benefits() {
   return (
-    <section className="py-20 md:py-24 bg-background">
-      <div className="container mx-auto px-6 max-w-3xl">
+    <section className="py-14 md:py-24 bg-background">
+      <div className="container mx-auto px-5 max-w-3xl">
         <SectionHeader kicker="المميزات" title="لماذا VELUM؟" />
-        <div className="space-y-6 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
+        <div className="space-y-4 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
           {BENEFITS.map((b, i) => (
             <div
               key={b.title}
-              className={`p-8 rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl ${
+              className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl ${
                 i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
               }`}
             >
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-white/50 rounded-full blur-2xl pointer-events-none" />
-              <div className="relative">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-[#E5E1D8]">
-                  <b.icon className="w-6 h-6 text-gold" />
+              <div className="relative flex md:block items-start gap-4">
+                <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center md:mb-6 shadow-sm border border-[#E5E1D8] shrink-0">
+                  <b.icon className="w-5 h-5 md:w-6 md:h-6 text-gold" />
                 </div>
-                <h3 className="text-xl font-black mb-3">{b.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+                <div>
+                  <h3 className="text-lg md:text-xl font-black mb-2 md:mb-3">{b.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+                </div>
               </div>
             </div>
           ))}
