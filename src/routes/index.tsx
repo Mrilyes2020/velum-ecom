@@ -104,6 +104,8 @@ function Countdown() {
 
 /* ---------- hero ---------- */
 function Hero() {
+  const { settings } = useStore();
+  const c = settings?.content;
   const scrollOrder = () =>
     document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
   return (
@@ -130,15 +132,15 @@ function Hero() {
           {/* content */}
           <div className="text-center md:text-right fade-in-up md:order-1">
             <span className="inline-block py-1 px-4 rounded-full border border-gold/40 text-gold text-[9px] md:text-[10px] font-black tracking-[0.25em] mb-4 md:mb-6 bg-white/60 backdrop-blur">
-              VELUM SUPPLEMENTS
+              {c?.hero_badge || "VELUM SUPPLEMENTS"}
             </span>
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-3 md:mb-4 text-ink leading-none">
-              VELUM
+              {c?.hero_title || "VELUM"}
             </h1>
-            <p className="text-base md:text-xl font-bold text-gold mb-2 md:mb-3">تركيبة بريبيوتك ومضادات الأكسدة</p>
-            <p className="text-gold/80 italic text-sm md:text-base mb-4 md:mb-5">طبيعي. فعّال. موثوق.</p>
+            <p className="text-base md:text-xl font-bold text-gold mb-2 md:mb-3">{c?.hero_subtitle}</p>
+            <p className="text-gold/80 italic text-sm md:text-base mb-4 md:mb-5">{c?.hero_tagline}</p>
             <p className="text-muted-foreground leading-relaxed text-sm md:text-base max-w-md mx-auto md:mx-0 mb-6 md:mb-8">
-              مكمل غذائي فريد يجمع فاكهة التنين والرمان وبذور الكتان لدعم صحة الجهاز الهضمي والأمعاء.
+              {c?.hero_description}
             </p>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2 mb-8 md:mb-10">
@@ -153,7 +155,7 @@ function Hero() {
               onClick={scrollOrder}
               className="w-full max-w-sm md:w-auto md:px-10 bg-ink text-white font-black py-4 md:py-5 rounded-2xl shadow-xl hover:bg-gold hover:text-ink transition-all duration-300 active:scale-95"
             >
-              اطلب المنتج الآن
+              {c?.hero_cta || "اطلب المنتج الآن"}
             </button>
           </div>
         </div>
@@ -451,7 +453,8 @@ function OrderSection() {
   const [successId, setSuccessId] = useState<string | null>(null);
 
   const basePrice = settings?.price ?? 2500;
-  const price = pack === 60 ? basePrice : Math.round(basePrice / 2);
+  const price30 = settings?.price_30 ?? Math.round(basePrice / 2);
+  const price = pack === 60 ? basePrice : price30;
   const subtotal = price * qty;
   const discountAmount = appliedPromo ? Math.round(subtotal * (appliedPromo.discount / 100)) : 0;
   const total = subtotal - discountAmount;
@@ -507,13 +510,14 @@ function OrderSection() {
     setPromoMsg(null);
   };
 
+  const c = settings?.content;
   return (
     <section id="order" className="py-14 md:py-24 bg-ink text-cream rounded-t-[2.5rem] md:rounded-t-[3rem] pb-28 md:pb-24">
       <div className="container mx-auto px-5">
         <div className="text-center mb-8 md:mb-12">
           <div className="text-gold text-[10px] tracking-[0.3em] uppercase mb-2 md:mb-3 font-black">اطلب الآن</div>
-          <h2 className="text-2xl md:text-4xl font-black text-white">احصل على VELUM إلى باب منزلك</h2>
-          <p className="text-gold text-sm font-bold mt-2 md:mt-3">الدفع عند الاستلام</p>
+          <h2 className="text-2xl md:text-4xl font-black text-white">{c?.order_title || "احصل على VELUM إلى باب منزلك"}</h2>
+          <p className="text-gold text-sm font-bold mt-2 md:mt-3">{c?.order_subtitle || "الدفع عند الاستلام"}</p>
         </div>
         <div className="grid md:grid-cols-2 gap-5 md:gap-6 max-w-5xl mx-auto">
           {/* product card */}
@@ -532,8 +536,8 @@ function OrderSection() {
               </div>
               <p className="hidden md:block text-center text-xs text-muted-foreground mt-2 italic">{pack} كبسولة نباتية طبيعية</p>
               <div className="flex-1 md:mt-4">
-                <h3 className="text-xl md:text-2xl font-black">VELUM</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">تركيبة بريبيوتك — {pack} كبسولة</p>
+                <h3 className="text-xl md:text-2xl font-black">{c?.product_name || "VELUM"}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">{c?.product_short_desc || "تركيبة بريبيوتك"} — {pack} كبسولة</p>
                 <div className="mt-1 md:mt-4 text-2xl md:text-3xl font-black text-gold">{fmtDZD(price)}</div>
               </div>
             </div>
@@ -543,7 +547,7 @@ function OrderSection() {
               <span className="text-sm font-semibold">اختر العبوة:</span>
               <div className="grid grid-cols-2 gap-2 mt-2">
                 {([60, 30] as const).map((p) => {
-                  const pPrice = p === 60 ? basePrice : Math.round(basePrice / 2);
+                  const pPrice = p === 60 ? basePrice : price30;
                   const active = pack === p;
                   return (
                     <button
@@ -712,6 +716,8 @@ function Contact() {
 
 /* ---------- footer ---------- */
 function Footer() {
+  const { settings } = useStore();
+  const c = settings?.content;
   return (
     <footer className="relative bg-ink text-cream py-14 border-t border-cream/10 overflow-hidden">
       <img
@@ -725,8 +731,8 @@ function Footer() {
       <div className="absolute inset-0 bg-ink/60" />
       <div className="relative container mx-auto px-4 text-center">
         <div className="text-3xl font-black text-gold">VELUM</div>
-        <p className="text-sm text-cream/80 italic mt-1">طبيعي. فعّال. موثوق.</p>
-        <p className="text-xs text-cream/60 mt-6">© 2024 VELUM. جميع الحقوق محفوظة.</p>
+        <p className="text-sm text-cream/80 italic mt-1">{c?.footer_tagline || "طبيعي. فعّال. موثوق."}</p>
+        <p className="text-xs text-cream/60 mt-6">{c?.footer_copyright || "© 2024 VELUM. جميع الحقوق محفوظة."}</p>
       </div>
     </footer>
   );

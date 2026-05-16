@@ -1,9 +1,25 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+export type SiteContent = {
+  hero_badge: string;
+  hero_title: string;
+  hero_subtitle: string;
+  hero_tagline: string;
+  hero_description: string;
+  hero_cta: string;
+  product_name: string;
+  product_short_desc: string;
+  order_title: string;
+  order_subtitle: string;
+  footer_tagline: string;
+  footer_copyright: string;
+};
+
 export type Settings = {
   id: number;
   price: number;
+  price_30: number;
   phone: string;
   facebook_url: string;
   instagram_url: string;
@@ -11,6 +27,7 @@ export type Settings = {
   promo_code: string;
   promo_discount: number;
   promo_active: boolean;
+  content: SiteContent;
 };
 
 type Ctx = {
