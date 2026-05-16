@@ -536,8 +536,8 @@ function OrderSection() {
               </div>
               <p className="hidden md:block text-center text-xs text-muted-foreground mt-2 italic">{pack} كبسولة نباتية طبيعية</p>
               <div className="flex-1 md:mt-4">
-                <h3 className="text-xl md:text-2xl font-black">VELUM</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">تركيبة بريبيوتك — {pack} كبسولة</p>
+                <h3 className="text-xl md:text-2xl font-black">{c?.product_name || "VELUM"}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground">{c?.product_short_desc || "تركيبة بريبيوتك"} — {pack} كبسولة</p>
                 <div className="mt-1 md:mt-4 text-2xl md:text-3xl font-black text-gold">{fmtDZD(price)}</div>
               </div>
             </div>
