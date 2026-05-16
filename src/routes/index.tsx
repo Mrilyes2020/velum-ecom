@@ -6,7 +6,8 @@ import {
   Package, Pill, Sun, Check, X, Star, Phone, Facebook, Instagram, MessageCircle,
   Clock, Eye, MapPin, Minus, Plus, Loader2,
 } from "lucide-react";
-import heroImg from "@/assets/velum-product.png";
+import heroImg from "@/assets/velum-hero.png";
+import ingredientsImg from "@/assets/velum-ingredients.png";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store-context";
 import { WILAYAS } from "@/lib/wilayas";
@@ -111,10 +112,13 @@ function Hero() {
             <div className="absolute -inset-6 md:-inset-8 rounded-full bg-gold/10 blur-3xl" />
             <img
               src={heroImg}
-              alt="VELUM bottle"
+              alt="VELUM bottle and box"
               width={520}
-              height={520}
-              className="relative rounded-3xl shadow-2xl w-full max-w-[260px] sm:max-w-sm md:max-w-md mx-auto"
+              height={650}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="relative rounded-3xl shadow-2xl w-full max-w-[280px] sm:max-w-sm md:max-w-md mx-auto fade-in-up"
             />
           </div>
         </div>
@@ -207,17 +211,30 @@ const INGREDIENTS = [
 ];
 function Ingredients() {
   return (
-    <section className="py-14 md:py-20 bg-card">
-      <div className="container mx-auto px-5">
-        <SectionHeader kicker="المكونات" title="مكونات نباتية مختارة بعناية" />
+    <section className="relative py-14 md:py-20 bg-card overflow-hidden">
+      <img
+        src={ingredientsImg}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-ink/60 md:bg-ink/55" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/30 to-ink/70" />
+      <div className="relative container mx-auto px-5">
+        <div className="text-center mb-8 md:mb-10">
+          <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">المكونات</div>
+          <h2 className="text-2xl md:text-4xl font-black text-white">مكونات نباتية مختارة بعناية</h2>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
           {INGREDIENTS.map((i) => (
-            <div key={i.name} className="text-center p-5 md:p-6 rounded-2xl bg-background border border-[#E5E1D8]">
-              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/15 text-gold flex items-center justify-center mb-3 md:mb-4">
+            <div key={i.name} className="text-center p-5 md:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/25 text-gold flex items-center justify-center mb-3 md:mb-4 border border-gold/40">
                 <i.icon className="w-8 h-8 md:w-10 md:h-10" />
               </div>
-              <h3 className="font-bold text-lg md:text-xl mb-2">{i.name}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{i.desc}</p>
+              <h3 className="font-bold text-lg md:text-xl mb-2 text-white">{i.name}</h3>
+              <p className="text-sm text-white/80 leading-relaxed">{i.desc}</p>
             </div>
           ))}
         </div>
