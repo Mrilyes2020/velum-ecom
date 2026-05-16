@@ -385,10 +385,14 @@ function OrderSection() {
   };
 
   return (
-    <section id="order" className="py-20 bg-ink text-cream">
+    <section id="order" className="py-20 md:py-24 bg-ink text-cream rounded-t-[3rem]">
       <div className="container mx-auto px-4">
-        <SectionHeader kicker="اطلب الآن" title="احصل على VELUM إلى باب منزلك" />
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <div className="text-gold text-[10px] tracking-[0.3em] uppercase mb-3 font-black">اطلب الآن</div>
+          <h2 className="text-3xl md:text-4xl font-black text-white">احصل على VELUM إلى باب منزلك</h2>
+          <p className="text-gold text-sm font-bold mt-3">الدفع عند الاستلام</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* product card */}
           <div className="bg-card text-foreground rounded-3xl p-6 shadow-2xl">
             <img src={heroImg} alt="VELUM" width={400} height={400} loading="lazy"
