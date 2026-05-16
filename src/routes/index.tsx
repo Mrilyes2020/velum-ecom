@@ -234,16 +234,16 @@ const STEPS = [
 ];
 function HowToUse() {
   return (
-    <section className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section className="py-14 md:py-20 bg-background">
+      <div className="container mx-auto px-5">
         <SectionHeader kicker="طريقة الاستخدام" title="3 خطوات بسيطة" />
-        <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto">
           {STEPS.map((s, i) => (
             <div key={i} className="bg-card border rounded-2xl p-6 text-center relative">
-              <div className="absolute -top-4 right-1/2 translate-x-1/2 w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center">
+              <div className="absolute -top-4 right-1/2 translate-x-1/2 w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center shadow-md">
                 {i + 1}
               </div>
-              <s.icon className="w-10 h-10 mx-auto text-gold mt-3 mb-3" />
+              <s.icon className="w-9 h-9 md:w-10 md:h-10 mx-auto text-gold mt-3 mb-3" />
               <p className="font-semibold">{s.text}</p>
             </div>
           ))}
