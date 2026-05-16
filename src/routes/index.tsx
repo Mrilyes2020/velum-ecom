@@ -108,50 +108,54 @@ function Hero() {
     document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
   return (
     <section className="bg-[#FCFAF7] text-ink relative overflow-hidden">
-      <div className="container mx-auto px-5 pt-8 pb-12 md:py-24 max-w-3xl text-center">
-        <div className="mb-6 md:mb-10 flex justify-center fade-in-up">
-          <div className="relative">
-            <div className="absolute -inset-6 md:-inset-8 rounded-full bg-gold/10 blur-3xl" />
-            <img
-              src={heroImg}
-              alt="VELUM bottle and box"
-              width={520}
-              height={650}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="relative rounded-3xl shadow-2xl w-full max-w-[280px] sm:max-w-sm md:max-w-md mx-auto fade-in-up"
-            />
-          </div>
-        </div>
-
-        <div className="fade-in-up">
-          <span className="inline-block py-1 px-4 rounded-full border border-gold/40 text-gold text-[9px] md:text-[10px] font-black tracking-[0.25em] mb-4 md:mb-6 bg-white/60 backdrop-blur">
-            VELUM SUPPLEMENTS
-          </span>
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-3 md:mb-4 text-ink leading-none">
-            VELUM
-          </h1>
-          <p className="text-base md:text-xl font-bold text-gold mb-2 md:mb-3">تركيبة بريبيوتك ومضادات الأكسدة</p>
-          <p className="text-gold/80 italic text-sm md:text-base mb-4 md:mb-5">طبيعي. فعّال. موثوق.</p>
-          <p className="text-muted-foreground leading-relaxed text-sm md:text-base max-w-md mx-auto mb-6 md:mb-8">
-            مكمل غذائي فريد يجمع فاكهة التنين والرمان وبذور الكتان لدعم صحة الجهاز الهضمي والأمعاء.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-8 md:mb-10">
-            {["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"].map((t) => (
-              <span key={t} className="text-[10px] md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1.5 bg-[#F9F7F2] border border-[#E5E1D8] rounded-lg text-ink">
-                {t}
-              </span>
-            ))}
+      <div className="container mx-auto px-5 pt-8 pb-12 md:py-20 max-w-6xl">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* image */}
+          <div className="flex justify-center md:order-2 fade-in-up">
+            <div className="relative">
+              <div className="absolute -inset-6 md:-inset-10 rounded-full bg-gold/15 blur-3xl" />
+              <img
+                src={heroImg}
+                alt="VELUM bottle and box"
+                width={520}
+                height={650}
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                className="relative rounded-3xl shadow-2xl w-full max-w-[280px] sm:max-w-sm md:max-w-md mx-auto"
+              />
+            </div>
           </div>
 
-          <button
-            onClick={scrollOrder}
-            className="w-full max-w-sm bg-ink text-white font-black py-4 md:py-5 rounded-2xl shadow-xl hover:bg-gold hover:text-ink transition-all duration-300 active:scale-95"
-          >
-            اطلب المنتج الآن
-          </button>
+          {/* content */}
+          <div className="text-center md:text-right fade-in-up md:order-1">
+            <span className="inline-block py-1 px-4 rounded-full border border-gold/40 text-gold text-[9px] md:text-[10px] font-black tracking-[0.25em] mb-4 md:mb-6 bg-white/60 backdrop-blur">
+              VELUM SUPPLEMENTS
+            </span>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-3 md:mb-4 text-ink leading-none">
+              VELUM
+            </h1>
+            <p className="text-base md:text-xl font-bold text-gold mb-2 md:mb-3">تركيبة بريبيوتك ومضادات الأكسدة</p>
+            <p className="text-gold/80 italic text-sm md:text-base mb-4 md:mb-5">طبيعي. فعّال. موثوق.</p>
+            <p className="text-muted-foreground leading-relaxed text-sm md:text-base max-w-md mx-auto md:mx-0 mb-6 md:mb-8">
+              مكمل غذائي فريد يجمع فاكهة التنين والرمان وبذور الكتان لدعم صحة الجهاز الهضمي والأمعاء.
+            </p>
+
+            <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2 mb-8 md:mb-10">
+              {["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"].map((t) => (
+                <span key={t} className="text-[10px] md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1.5 bg-white border border-[#E5E1D8] rounded-lg text-ink">
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <button
+              onClick={scrollOrder}
+              className="w-full max-w-sm md:w-auto md:px-10 bg-ink text-white font-black py-4 md:py-5 rounded-2xl shadow-xl hover:bg-gold hover:text-ink transition-all duration-300 active:scale-95"
+            >
+              اطلب المنتج الآن
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -176,7 +180,7 @@ function Gallery() {
     <section className="py-12 md:py-20 bg-background">
       <div className="container mx-auto px-5 max-w-4xl">
         <SectionHeader kicker="معرض الصور" title="اكتشف VELUM" />
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-ink aspect-[4/5] sm:aspect-[16/10]">
+        <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-ink aspect-[4/5] sm:aspect-[16/10] md:aspect-[21/9] max-h-[70vh] mx-auto">
           {GALLERY.map((g, i) => (
             <img
               key={i}
