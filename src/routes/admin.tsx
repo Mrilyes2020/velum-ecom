@@ -324,8 +324,8 @@ function SettingsTab() {
     setFb(settings.facebook_url); setIg(settings.instagram_url);
   }, [settings]);
 
-  const save = async (patch: Record<string, unknown>, label: string) => {
-    updateLocal(patch as any);
+  const save = async (patch: Partial<NonNullable<typeof settings>>, label: string) => {
+    updateLocal(patch);
     const { error } = await supabase.from("settings").update(patch).eq("id", 1);
     if (error) { toast.error("فشل الحفظ"); refresh(); }
     else toast.success(`${label} — تم الحفظ بنجاح ✓`);
