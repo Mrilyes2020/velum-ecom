@@ -303,12 +303,16 @@ function Benefits() {
 }
 
 /* ---------- ingredients ---------- */
-const INGREDIENTS = [
-  { icon: Heart, name: "فاكهة التنين", desc: "غنية بالألياف ومضادات الأكسدة لدعم صحة الأمعاء." },
-  { icon: Apple, name: "الرمان", desc: "مصدر طبيعي للبوليفينولات التي تحمي القلب والجلد." },
-  { icon: Wheat, name: "بذور الكتان", desc: "أحماض أوميغا-3 وألياف تساعد على الهضم السليم." },
+const INGREDIENT_ICONS = [Heart, Apple, Wheat, Leaf, Sparkles, Sun];
+const DEFAULT_INGREDIENTS = [
+  { name: "فاكهة التنين", desc: "غنية بالألياف ومضادات الأكسدة لدعم صحة الأمعاء." },
+  { name: "الرمان", desc: "مصدر طبيعي للبوليفينولات التي تحمي القلب والجلد." },
+  { name: "بذور الكتان", desc: "أحماض أوميغا-3 وألياف تساعد على الهضم السليم." },
 ];
 function Ingredients() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const items = c?.ingredients && c.ingredients.length > 0 ? c.ingredients : DEFAULT_INGREDIENTS;
   return (
     <section className="relative py-14 md:py-20 bg-card overflow-hidden">
       <img
@@ -324,18 +328,21 @@ function Ingredients() {
       <div className="relative container mx-auto px-5">
         <div className="text-center mb-8 md:mb-10">
           <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">المكونات</div>
-          <h2 className="text-2xl md:text-4xl font-black text-white">مكونات نباتية مختارة بعناية</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white">{c?.ingredients_title || "مكونات نباتية مختارة بعناية"}</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
-          {INGREDIENTS.map((i) => (
-            <div key={i.name} className="text-center p-5 md:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
-              <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/25 text-gold flex items-center justify-center mb-3 md:mb-4 border border-gold/40">
-                <i.icon className="w-8 h-8 md:w-10 md:h-10" />
+          {items.map((it, i) => {
+            const Icon = INGREDIENT_ICONS[i % INGREDIENT_ICONS.length];
+            return (
+              <div key={it.name + i} className="text-center p-5 md:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20">
+                <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gold/25 text-gold flex items-center justify-center mb-3 md:mb-4 border border-gold/40">
+                  <Icon className="w-8 h-8 md:w-10 md:h-10" />
+                </div>
+                <h3 className="font-bold text-lg md:text-xl mb-2 text-white">{it.name}</h3>
+                <p className="text-sm text-white/80 leading-relaxed">{it.desc}</p>
               </div>
-              <h3 className="font-bold text-lg md:text-xl mb-2 text-white">{i.name}</h3>
-              <p className="text-sm text-white/80 leading-relaxed">{i.desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -343,26 +350,29 @@ function Ingredients() {
 }
 
 /* ---------- how to use ---------- */
-const STEPS = [
-  { icon: Package, text: "افتح العلبة" },
-  { icon: Pill, text: "تناول كبسولتين" },
-  { icon: Sun, text: "مع كأس ماء صباحاً" },
-];
+const STEP_ICONS = [Package, Pill, Sun, Sparkles, Check];
+const DEFAULT_STEPS = ["افتح العلبة", "تناول كبسولتين", "مع كأس ماء صباحاً"];
 function HowToUse() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const items = c?.steps && c.steps.length > 0 ? c.steps : DEFAULT_STEPS;
   return (
     <section className="py-14 md:py-20 bg-background">
       <div className="container mx-auto px-5">
-        <SectionHeader kicker="طريقة الاستخدام" title="3 خطوات بسيطة" />
+        <SectionHeader kicker="طريقة الاستخدام" title={c?.steps_title || "3 خطوات بسيطة"} />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6 max-w-4xl mx-auto">
-          {STEPS.map((s, i) => (
-            <div key={i} className="bg-card border rounded-2xl p-6 text-center relative">
-              <div className="absolute -top-4 right-1/2 translate-x-1/2 w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center shadow-md">
-                {i + 1}
+          {items.map((text, i) => {
+            const Icon = STEP_ICONS[i % STEP_ICONS.length];
+            return (
+              <div key={i} className="bg-card border rounded-2xl p-6 text-center relative">
+                <div className="absolute -top-4 right-1/2 translate-x-1/2 w-9 h-9 rounded-full bg-gold text-ink font-black flex items-center justify-center shadow-md">
+                  {i + 1}
+                </div>
+                <Icon className="w-9 h-9 md:w-10 md:h-10 mx-auto text-gold mt-3 mb-3" />
+                <p className="font-semibold">{text}</p>
               </div>
-              <s.icon className="w-9 h-9 md:w-10 md:h-10 mx-auto text-gold mt-3 mb-3" />
-              <p className="font-semibold">{s.text}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -370,29 +380,33 @@ function HowToUse() {
 }
 
 /* ---------- before/after ---------- */
-const BEFORE = ["انتفاخ مزعج", "هضم بطيء", "تعب متكرر", "مناعة ضعيفة"];
-const AFTER = ["راحة في المعدة", "هضم أفضل وأسرع", "طاقة وحيوية", "مناعة أقوى"];
+const DEFAULT_BEFORE = ["انتفاخ مزعج", "هضم بطيء", "تعب متكرر", "مناعة ضعيفة"];
+const DEFAULT_AFTER = ["راحة في المعدة", "هضم أفضل وأسرع", "طاقة وحيوية", "مناعة أقوى"];
 function BeforeAfter() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const before = c?.before_list && c.before_list.length > 0 ? c.before_list : DEFAULT_BEFORE;
+  const after = c?.after_list && c.after_list.length > 0 ? c.after_list : DEFAULT_AFTER;
   return (
     <section className="py-14 md:py-20 bg-card">
       <div className="container mx-auto px-5">
         <SectionHeader kicker="النتائج" title="قبل و بعد 30 يوم" />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto">
           <div className="rounded-2xl border-2 border-destructive/30 p-5 md:p-6 bg-destructive/5">
-            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-destructive">قبل الاستخدام</h3>
+            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-destructive">{c?.before_title || "قبل الاستخدام"}</h3>
             <ul className="space-y-2.5 md:space-y-3">
-              {BEFORE.map((b) => (
-                <li key={b} className="flex items-center gap-2 text-sm">
+              {before.map((b, i) => (
+                <li key={b + i} className="flex items-center gap-2 text-sm">
                   <X className="w-5 h-5 text-destructive shrink-0" /> {b}
                 </li>
               ))}
             </ul>
           </div>
           <div className="rounded-2xl border-2 border-gold p-5 md:p-6 bg-gold/5">
-            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-gold">بعد 30 يوم</h3>
+            <h3 className="font-bold text-base md:text-lg mb-3 md:mb-4 text-gold">{c?.after_title || "بعد 30 يوم"}</h3>
             <ul className="space-y-2.5 md:space-y-3">
-              {AFTER.map((b) => (
-                <li key={b} className="flex items-center gap-2 text-sm">
+              {after.map((b, i) => (
+                <li key={b + i} className="flex items-center gap-2 text-sm">
                   <Check className="w-5 h-5 text-gold shrink-0" /> {b}
                 </li>
               ))}
