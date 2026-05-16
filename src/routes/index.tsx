@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import {
   Sparkles, Leaf, ShieldCheck, Zap, Heart, Apple, Wheat,
   Package, Pill, Sun, Check, X, Star, Phone, Facebook, Instagram, MessageCircle,
-  Clock, Eye, MapPin, Minus, Plus, Loader2,
+  Clock, Eye, MapPin, Minus, Plus, Loader2, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import heroImg from "@/assets/velum-hero.png";
 import ingredientsImg from "@/assets/velum-ingredients.png";
