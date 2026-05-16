@@ -525,3 +525,273 @@ function PromoTab() {
     </div>
   );
 }
+
+/* ---------- sections (editable arrays) ---------- */
+type SC = import("@/lib/store-context").SiteContent;
+
+function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-card border rounded-2xl p-5 space-y-3">
+      <h3 className="font-bold text-base">{title}</h3>
+      {children}
+    </div>
+  );
+}
+
+function StringListEditor({
+  label, items, onChange, placeholder,
+}: { label?: string; items: string[]; onChange: (v: string[]) => void; placeholder?: string }) {
+  return (
+    <div className="space-y-2">
+      {label && <label className="text-sm font-semibold">{label}</label>}
+      {items.map((v, i) => (
+        <div key={i} className="flex gap-2">
+          <input
+            value={v}
+            placeholder={placeholder}
+            onChange={(e) => {
+              const next = [...items];
+              next[i] = e.target.value;
+              onChange(next);
+            }}
+            className="flex-1 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+          <button
+            type="button"
+            onClick={() => onChange(items.filter((_, idx) => idx !== i))}
+            className="px-3 rounded-md border hover:bg-destructive hover:text-white transition"
+            aria-label="حذف"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => onChange([...items, ""])}
+        className="flex items-center gap-1.5 text-sm text-gold hover:underline"
+      >
+        <Plus className="w-4 h-4" /> إضافة
+      </button>
+    </div>
+  );
+}
+
+function ObjectListEditor<T extends Record<string, string>>({
+  items, fields, onChange, blank,
+}: {
+  items: T[];
+  fields: { key: keyof T; label: string; long?: boolean }[];
+  onChange: (v: T[]) => void;
+  blank: T;
+}) {
+  return (
+    <div className="space-y-3">
+      {items.map((it, i) => (
+        <div key={i} className="border rounded-xl p-3 bg-background space-y-2 relative">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-muted-foreground">#{i + 1}</span>
+            <button
+              type="button"
+              onClick={() => onChange(items.filter((_, idx) => idx !== i))}
+              className="text-destructive hover:bg-destructive/10 rounded-md p-1"
+              aria-label="حذف"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+          {fields.map((f) => (
+            <div key={String(f.key)}>
+              <label className="text-xs font-semibold">{f.label}</label>
+              {f.long ? (
+                <textarea
+                  value={it[f.key] ?? ""}
+                  rows={2}
+                  onChange={(e) => {
+                    const next = [...items];
+                    next[i] = { ...it, [f.key]: e.target.value };
+                    onChange(next);
+                  }}
+                  className="w-full mt-1 border rounded-md px-2 py-1.5 bg-card text-sm resize-none"
+                />
+              ) : (
+                <input
+                  value={it[f.key] ?? ""}
+                  onChange={(e) => {
+                    const next = [...items];
+                    next[i] = { ...it, [f.key]: e.target.value };
+                    onChange(next);
+                  }}
+                  className="w-full mt-1 border rounded-md px-2 py-1.5 bg-card text-sm"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => onChange([...items, { ...blank }])}
+        className="flex items-center gap-1.5 text-sm text-gold hover:underline"
+      >
+        <Plus className="w-4 h-4" /> إضافة عنصر
+      </button>
+    </div>
+  );
+}
+
+function SectionsTab() {
+  const { settings, updateLocal, refresh } = useStore();
+  const [draft, setDraft] = useState<SC | undefined>(settings?.content);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (settings?.content) setDraft(settings.content);
+  }, [settings]);
+
+  if (!settings || !draft) return <Loader2 className="w-6 h-6 animate-spin text-gold" />;
+
+  const set = <K extends keyof SC>(k: K, v: SC[K]) => setDraft({ ...draft, [k]: v });
+
+  const saveAll = async () => {
+    setSaving(true);
+    updateLocal({ content: draft });
+    const { error } = await supabase.from("settings").update({ content: draft }).eq("id", 1);
+    setSaving(false);
+    if (error) { toast.error("فشل الحفظ"); refresh(); }
+    else toast.success("تم حفظ الأقسام بنجاح ✓");
+  };
+
+  const benefits = draft.benefits ?? [];
+  const ingredients = draft.ingredients ?? [];
+  const steps = draft.steps ?? [];
+  const before = draft.before_list ?? [];
+  const after = draft.after_list ?? [];
+  const reviews = draft.reviews ?? [];
+  const badges = draft.hero_badges ?? [];
+
+  return (
+    <div className="space-y-4 max-w-3xl">
+      <div className="bg-card border rounded-2xl p-5">
+        <h3 className="font-bold mb-1">تعديل أقسام الموقع</h3>
+        <p className="text-xs text-muted-foreground">يمكنك إضافة وحذف وتعديل عناصر كل قسم. الأيقونات تُختار تلقائياً.</p>
+      </div>
+
+      <SectionCard title="شارات الهيرو (تحت العنوان)">
+        <StringListEditor items={badges} onChange={(v) => set("hero_badges", v)} placeholder="مثال: نباتي 100%" />
+      </SectionCard>
+
+      <SectionCard title="المميزات (لماذا VELUM؟)">
+        <div>
+          <label className="text-sm font-semibold">عنوان القسم</label>
+          <input
+            value={draft.benefits_title ?? ""}
+            onChange={(e) => set("benefits_title", e.target.value)}
+            placeholder="لماذا VELUM؟"
+            className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+        </div>
+        <ObjectListEditor
+          items={benefits}
+          fields={[
+            { key: "title", label: "العنوان" },
+            { key: "desc", label: "الوصف", long: true },
+          ]}
+          onChange={(v) => set("benefits", v)}
+          blank={{ title: "", desc: "" }}
+        />
+      </SectionCard>
+
+      <SectionCard title="المكونات">
+        <div>
+          <label className="text-sm font-semibold">عنوان القسم</label>
+          <input
+            value={draft.ingredients_title ?? ""}
+            onChange={(e) => set("ingredients_title", e.target.value)}
+            placeholder="مكونات نباتية مختارة بعناية"
+            className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+        </div>
+        <ObjectListEditor
+          items={ingredients}
+          fields={[
+            { key: "name", label: "الاسم" },
+            { key: "desc", label: "الوصف", long: true },
+          ]}
+          onChange={(v) => set("ingredients", v)}
+          blank={{ name: "", desc: "" }}
+        />
+      </SectionCard>
+
+      <SectionCard title="طريقة الاستخدام">
+        <div>
+          <label className="text-sm font-semibold">عنوان القسم</label>
+          <input
+            value={draft.steps_title ?? ""}
+            onChange={(e) => set("steps_title", e.target.value)}
+            placeholder="3 خطوات بسيطة"
+            className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+        </div>
+        <StringListEditor items={steps} onChange={(v) => set("steps", v)} placeholder="مثال: افتح العلبة" />
+      </SectionCard>
+
+      <SectionCard title="قبل و بعد">
+        <div>
+          <label className="text-sm font-semibold">عنوان "قبل"</label>
+          <input
+            value={draft.before_title ?? ""}
+            onChange={(e) => set("before_title", e.target.value)}
+            placeholder="قبل الاستخدام"
+            className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+        </div>
+        <StringListEditor label="قائمة (قبل)" items={before} onChange={(v) => set("before_list", v)} />
+        <div>
+          <label className="text-sm font-semibold">عنوان "بعد"</label>
+          <input
+            value={draft.after_title ?? ""}
+            onChange={(e) => set("after_title", e.target.value)}
+            placeholder="بعد 30 يوم"
+            className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+        </div>
+        <StringListEditor label="قائمة (بعد)" items={after} onChange={(v) => set("after_list", v)} />
+      </SectionCard>
+
+      <SectionCard title="آراء العملاء">
+        <div>
+          <label className="text-sm font-semibold">عنوان القسم</label>
+          <input
+            value={draft.reviews_title ?? ""}
+            onChange={(e) => set("reviews_title", e.target.value)}
+            placeholder="ماذا يقولون عن VELUM"
+            className="w-full mt-1.5 border rounded-md px-3 py-2 bg-background text-sm"
+          />
+        </div>
+        <ObjectListEditor
+          items={reviews}
+          fields={[
+            { key: "name", label: "الاسم" },
+            { key: "city", label: "المدينة" },
+            { key: "text", label: "الرأي", long: true },
+          ]}
+          onChange={(v) => set("reviews", v)}
+          blank={{ name: "", city: "", text: "" }}
+        />
+      </SectionCard>
+
+      <div className="sticky bottom-4 bg-card border rounded-2xl p-3 flex gap-2 shadow-lg">
+        <button onClick={saveAll} disabled={saving}
+                className="btn-gold rounded-md px-6 py-3 font-bold disabled:opacity-60 flex items-center gap-2">
+          {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+          حفظ كل التغييرات
+        </button>
+        <button onClick={() => setDraft(settings.content)}
+                className="rounded-md px-6 py-3 border font-bold hover:bg-muted">
+          استعادة
+        </button>
+      </div>
+    </div>
+  );
+}
