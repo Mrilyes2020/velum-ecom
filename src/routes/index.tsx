@@ -441,6 +441,7 @@ function Testimonials() {
 /* ---------- order section ---------- */
 function OrderSection() {
   const { settings } = useStore();
+  const [pack, setPack] = useState<60 | 30>(60);
   const [qty, setQty] = useState(1);
   const [promoInput, setPromoInput] = useState("");
   const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number } | null>(null);
@@ -449,7 +450,8 @@ function OrderSection() {
   const [submitting, setSubmitting] = useState(false);
   const [successId, setSuccessId] = useState<string | null>(null);
 
-  const price = settings?.price ?? 2500;
+  const basePrice = settings?.price ?? 2500;
+  const price = pack === 60 ? basePrice : Math.round(basePrice / 2);
   const subtotal = price * qty;
   const discountAmount = appliedPromo ? Math.round(subtotal * (appliedPromo.discount / 100)) : 0;
   const total = subtotal - discountAmount;
