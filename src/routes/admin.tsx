@@ -95,12 +95,13 @@ function AdminPage() {
 }
 
 function AdminShell({ onLogout }: { onLogout: () => void }) {
-  const [tab, setTab] = useState<"overview" | "orders" | "settings" | "content" | "promo">("overview");
+  const [tab, setTab] = useState<"overview" | "orders" | "settings" | "content" | "sections" | "promo">("overview");
   const items = [
     { key: "overview", label: "لوحة التحكم", icon: LayoutDashboard },
     { key: "orders", label: "الطلبات", icon: ShoppingBag },
     { key: "settings", label: "الإعدادات", icon: SettingsIcon },
     { key: "content", label: "النصوص", icon: FileText },
+    { key: "sections", label: "الأقسام", icon: Layers },
     { key: "promo", label: "كود الخصم", icon: Tag },
   ] as const;
 
