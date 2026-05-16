@@ -144,7 +144,10 @@ function Hero() {
             </p>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2 mb-8 md:mb-10">
-              {["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"].map((t) => (
+              {(c?.hero_badges && c.hero_badges.length > 0
+                ? c.hero_badges
+                : ["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"]
+              ).map((t) => (
                 <span key={t} className="text-[10px] md:text-xs font-bold px-2.5 md:px-3 py-1 md:py-1.5 bg-white border border-[#E5E1D8] rounded-lg text-ink">
                   {t}
                 </span>
