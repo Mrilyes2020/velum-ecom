@@ -77,12 +77,22 @@ function Countdown() {
   const m = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
   const s = String(secs % 60).padStart(2, "0");
   return (
-    <div className="bg-gold text-ink py-4">
-      <div className="container mx-auto px-4 flex flex-wrap items-center justify-center gap-3 text-center">
-        <Clock className="w-5 h-5" />
-        <span className="font-bold text-base md:text-lg">العرض ينتهي بعد:</span>
-        <div className="flex items-center gap-2 font-black text-2xl md:text-3xl tabular-nums tracking-tight">
-          <span>{h}</span><span>:</span><span>{m}</span><span>:</span><span>{s}</span>
+    <div className="bg-[#F1EDE4] py-6 md:py-8 px-4 border-y border-[#E5E1D8]">
+      <div className="container mx-auto flex items-center justify-between gap-4 max-w-3xl">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
+            <Clock className="w-5 h-5 text-gold" />
+          </div>
+          <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-ink truncate">
+            العرض ينتهي بعد
+          </span>
+        </div>
+        <div className="flex gap-2 md:gap-3 text-xl md:text-3xl font-black text-ink tabular-nums">
+          <div className="flex flex-col items-center"><span>{h}</span><span className="text-[8px] text-muted-foreground font-bold uppercase mt-0.5">ساعة</span></div>
+          <span className="text-gold">:</span>
+          <div className="flex flex-col items-center"><span>{m}</span><span className="text-[8px] text-muted-foreground font-bold uppercase mt-0.5">دقيقة</span></div>
+          <span className="text-gold">:</span>
+          <div className="flex flex-col items-center"><span>{s}</span><span className="text-[8px] text-muted-foreground font-bold uppercase mt-0.5">ثانية</span></div>
         </div>
       </div>
     </div>
@@ -94,40 +104,48 @@ function Hero() {
   const scrollOrder = () =>
     document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
   return (
-    <section className="bg-ink text-cream relative overflow-hidden">
-      <div className="absolute inset-0 opacity-30 pointer-events-none"
-           style={{ background: "radial-gradient(circle at 70% 30%, var(--gold) 0%, transparent 50%)" }} />
-      <div className="container mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center relative">
-        <div className="order-2 md:order-1 fade-in-up">
-          <span className="inline-block text-xs tracking-widest text-gold border border-gold/40 rounded-full px-3 py-1 mb-5">
+    <section className="bg-[#FCFAF7] text-ink relative overflow-hidden">
+      <div className="container mx-auto px-6 pt-10 pb-16 md:py-24 max-w-3xl text-center">
+        <div className="mb-10 flex justify-center fade-in-up">
+          <div className="relative">
+            <div className="absolute -inset-8 rounded-full bg-gold/10 blur-3xl" />
+            <img
+              src={heroImg}
+              alt="VELUM bottle"
+              width={520}
+              height={520}
+              className="relative rounded-3xl shadow-2xl w-full max-w-sm md:max-w-md mx-auto"
+            />
+          </div>
+        </div>
+
+        <div className="fade-in-up">
+          <span className="inline-block py-1.5 px-5 rounded-full border border-gold/40 text-gold text-[10px] font-black tracking-[0.25em] mb-6 bg-white/60 backdrop-blur">
             VELUM SUPPLEMENTS
           </span>
-          <h1 className="text-6xl md:text-8xl font-black text-gold leading-none">VELUM</h1>
-          <p className="text-xl md:text-2xl mt-3 text-cream/90">تركيبة بريبيوتك ومضادات الأكسدة</p>
-          <p className="text-gold italic text-lg mt-4">طبيعي. فعّال. موثوق.</p>
-          <p className="mt-5 text-cream/75 max-w-lg leading-relaxed">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-4 text-ink leading-none">
+            VELUM
+          </h1>
+          <p className="text-lg md:text-xl font-bold text-gold mb-3">تركيبة بريبيوتك ومضادات الأكسدة</p>
+          <p className="text-gold/80 italic text-sm md:text-base mb-5">طبيعي. فعّال. موثوق.</p>
+          <p className="text-muted-foreground leading-relaxed text-sm md:text-base max-w-md mx-auto mb-8">
             مكمل غذائي فريد يجمع فاكهة التنين والرمان وبذور الكتان لدعم صحة الجهاز الهضمي والأمعاء.
           </p>
-          <button
-            onClick={scrollOrder}
-            className="btn-gold pulse-ring mt-8 rounded-full px-10 py-4 text-lg"
-          >
-            اطلب الآن
-          </button>
-          <div className="flex flex-wrap gap-2 mt-8">
+
+          <div className="flex flex-wrap justify-center gap-2 mb-10">
             {["نباتي 100%", "60 كبسولة", "بدون GMO", "بريبيوتيك طبيعي"].map((t) => (
-              <span key={t} className="text-xs px-3 py-1.5 rounded-full bg-cream/10 border border-cream/20">
+              <span key={t} className="text-[10px] md:text-xs font-bold px-3 py-1.5 bg-[#F9F7F2] border border-[#E5E1D8] rounded-lg text-ink">
                 {t}
               </span>
             ))}
           </div>
-        </div>
-        <div className="order-1 md:order-2 flex justify-center fade-in-up">
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-full bg-gold/20 blur-3xl" />
-            <img src={heroImg} alt="VELUM bottle" width={520} height={520}
-                 className="relative rounded-2xl shadow-2xl w-full max-w-md" />
-          </div>
+
+          <button
+            onClick={scrollOrder}
+            className="w-full max-w-sm bg-ink text-white font-black py-5 rounded-2xl shadow-xl hover:bg-gold hover:text-ink transition-all duration-300 active:scale-95"
+          >
+            اطلب المنتج الآن
+          </button>
         </div>
       </div>
     </section>
