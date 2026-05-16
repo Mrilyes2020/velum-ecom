@@ -133,6 +133,7 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
           {tab === "overview" && <Overview />}
           {tab === "orders" && <OrdersTab />}
           {tab === "settings" && <SettingsTab />}
+          {tab === "content" && <ContentTab />}
           {tab === "promo" && <PromoTab />}
         </div>
       </main>
