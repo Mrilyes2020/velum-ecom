@@ -510,13 +510,14 @@ function OrderSection() {
     setPromoMsg(null);
   };
 
+  const c = settings?.content;
   return (
     <section id="order" className="py-14 md:py-24 bg-ink text-cream rounded-t-[2.5rem] md:rounded-t-[3rem] pb-28 md:pb-24">
       <div className="container mx-auto px-5">
         <div className="text-center mb-8 md:mb-12">
           <div className="text-gold text-[10px] tracking-[0.3em] uppercase mb-2 md:mb-3 font-black">اطلب الآن</div>
-          <h2 className="text-2xl md:text-4xl font-black text-white">احصل على VELUM إلى باب منزلك</h2>
-          <p className="text-gold text-sm font-bold mt-2 md:mt-3">الدفع عند الاستلام</p>
+          <h2 className="text-2xl md:text-4xl font-black text-white">{c?.order_title || "احصل على VELUM إلى باب منزلك"}</h2>
+          <p className="text-gold text-sm font-bold mt-2 md:mt-3">{c?.order_subtitle || "الدفع عند الاستلام"}</p>
         </div>
         <div className="grid md:grid-cols-2 gap-5 md:gap-6 max-w-5xl mx-auto">
           {/* product card */}
