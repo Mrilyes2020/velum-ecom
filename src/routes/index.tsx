@@ -547,7 +547,7 @@ function OrderSection() {
               <span className="text-sm font-semibold">اختر العبوة:</span>
               <div className="grid grid-cols-2 gap-2 mt-2">
                 {([60, 30] as const).map((p) => {
-                  const pPrice = p === 60 ? basePrice : Math.round(basePrice / 2);
+                  const pPrice = p === 60 ? basePrice : price30;
                   const active = pack === p;
                   return (
                     <button
