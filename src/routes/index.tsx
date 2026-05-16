@@ -155,9 +155,9 @@ function Hero() {
 /* ---------- generic section heading ---------- */
 function SectionHeader({ kicker, title }: { kicker: string; title: string }) {
   return (
-    <div className="text-center mb-10">
-      <div className="text-gold text-xs tracking-widest uppercase mb-2">{kicker}</div>
-      <h2 className="text-3xl md:text-4xl font-black">{title}</h2>
+    <div className="text-center mb-8 md:mb-10">
+      <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">{kicker}</div>
+      <h2 className="text-2xl md:text-4xl font-black">{title}</h2>
     </div>
   );
 }
