@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
   LayoutDashboard, ShoppingBag, Settings as SettingsIcon, Tag,
-  LogOut, Loader2, Search, Lock, FileText,
+  LogOut, Loader2, Search, Lock, FileText, Layers, Trash2, Plus,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/lib/store-context";
