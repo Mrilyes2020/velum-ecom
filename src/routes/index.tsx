@@ -247,12 +247,16 @@ function SectionHeader({ kicker, title }: { kicker: string; title: string }) {
 }
 
 /* ---------- benefits ---------- */
-const BENEFITS = [
-  { icon: Sparkles, title: "دعم الهضم الصحي", desc: "ألياف بريبيوتيك تعزز توازن الميكروبيوم وراحة المعدة." },
-  { icon: ShieldCheck, title: "تقوية المناعة", desc: "مضادات أكسدة قوية تحمي الخلايا من الإجهاد التأكسدي." },
-  { icon: Zap, title: "طاقة طبيعية", desc: "مزيج نباتي يدعم الحيوية والنشاط اليومي بدون منبهات." },
+const BENEFIT_ICONS = [Sparkles, ShieldCheck, Zap, Heart, Leaf, Star];
+const DEFAULT_BENEFITS = [
+  { title: "دعم الهضم الصحي", desc: "ألياف بريبيوتيك تعزز توازن الميكروبيوم وراحة المعدة." },
+  { title: "تقوية المناعة", desc: "مضادات أكسدة قوية تحمي الخلايا من الإجهاد التأكسدي." },
+  { title: "طاقة طبيعية", desc: "مزيج نباتي يدعم الحيوية والنشاط اليومي بدون منبهات." },
 ];
 function Benefits() {
+  const { settings } = useStore();
+  const c = settings?.content;
+  const items = c?.benefits && c.benefits.length > 0 ? c.benefits : DEFAULT_BENEFITS;
   return (
     <section className="relative py-14 md:py-24 overflow-hidden">
       <img
@@ -267,28 +271,31 @@ function Benefits() {
       <div className="relative container mx-auto px-5 max-w-3xl">
         <div className="text-center mb-8 md:mb-10">
           <div className="text-gold text-[10px] md:text-xs tracking-widest uppercase mb-2 font-black">المميزات</div>
-          <h2 className="text-2xl md:text-4xl font-black text-white">لماذا VELUM؟</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white">{c?.benefits_title || "لماذا VELUM؟"}</h2>
         </div>
         <div className="space-y-4 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
-          {BENEFITS.map((b, i) => (
-            <div
-              key={b.title}
-              className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl ${
-                i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
-              }`}
-            >
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="relative flex md:block items-start gap-4">
-                <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center md:mb-6 shadow-sm border border-[#E5E1D8] shrink-0">
-                  <b.icon className="w-5 h-5 md:w-6 md:h-6 text-gold" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl font-black mb-2 md:mb-3">{b.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+          {items.map((b, i) => {
+            const Icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length];
+            return (
+              <div
+                key={b.title + i}
+                className={`p-6 md:p-8 rounded-3xl md:rounded-[2rem] border border-[#E5E1D8] relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-2xl ${
+                  i % 2 === 0 ? "bg-[#F9F7F2]" : "bg-white shadow-lg shadow-ink/5"
+                }`}
+              >
+                <div className="absolute -top-4 -right-4 w-24 h-24 bg-gold/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="relative flex md:block items-start gap-4">
+                  <div className="w-11 h-11 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center md:mb-6 shadow-sm border border-[#E5E1D8] shrink-0">
+                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-gold" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-black mb-2 md:mb-3">{b.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
