@@ -716,6 +716,8 @@ function Contact() {
 
 /* ---------- footer ---------- */
 function Footer() {
+  const { settings } = useStore();
+  const c = settings?.content;
   return (
     <footer className="relative bg-ink text-cream py-14 border-t border-cream/10 overflow-hidden">
       <img
@@ -729,8 +731,8 @@ function Footer() {
       <div className="absolute inset-0 bg-ink/60" />
       <div className="relative container mx-auto px-4 text-center">
         <div className="text-3xl font-black text-gold">VELUM</div>
-        <p className="text-sm text-cream/80 italic mt-1">طبيعي. فعّال. موثوق.</p>
-        <p className="text-xs text-cream/60 mt-6">© 2024 VELUM. جميع الحقوق محفوظة.</p>
+        <p className="text-sm text-cream/80 italic mt-1">{c?.footer_tagline || "طبيعي. فعّال. موثوق."}</p>
+        <p className="text-xs text-cream/60 mt-6">{c?.footer_copyright || "© 2024 VELUM. جميع الحقوق محفوظة."}</p>
       </div>
     </footer>
   );
