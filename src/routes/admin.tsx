@@ -122,8 +122,11 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
             </button>
           ))}
         </nav>
+        <Link to="/" className="m-3 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-gold/10 hover:bg-gold/20 text-sm text-gold transition">
+          <Home className="w-4 h-4" /><span>الموقع</span>
+        </Link>
         <button onClick={onLogout}
-                className="m-3 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-cream/10 hover:bg-cream/20 text-sm">
+                className="m-3 mt-0 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-cream/10 hover:bg-cream/20 text-sm">
           <LogOut className="w-4 h-4" /><span>خروج</span>
         </button>
       </aside>
