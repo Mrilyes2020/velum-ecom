@@ -97,40 +97,54 @@ function AdminPage() {
 function AdminShell({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<"overview" | "orders" | "settings" | "content" | "sections" | "promo">("overview");
   const items = [
-    { key: "overview", label: "لوحة التحكم", icon: LayoutDashboard },
+    { key: "overview", label: "الرئيسية", icon: LayoutDashboard },
     { key: "orders", label: "الطلبات", icon: ShoppingBag },
-    { key: "settings", label: "الإعدادات", icon: SettingsIcon },
-    { key: "content", label: "النصوص", icon: FileText },
     { key: "sections", label: "الأقسام", icon: Layers },
-    { key: "promo", label: "كود الخصم", icon: Tag },
+    { key: "content", label: "النصوص", icon: FileText },
+    { key: "settings", label: "الإعدادات", icon: SettingsIcon },
+    { key: "promo", label: "الخصم", icon: Tag },
   ] as const;
+  const currentLabel = items.find((i) => i.key === tab)?.label ?? "";
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <aside className="bg-ink text-cream w-16 md:w-60 shrink-0 flex flex-col">
-        <div className="px-3 md:px-6 py-5 border-b border-cream/10">
-          <div className="text-gold font-black text-xl text-center md:text-right">V<span className="hidden md:inline">ELUM</span></div>
+    <div className="min-h-screen bg-background flex flex-col md:flex-row">
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex bg-ink text-cream w-60 shrink-0 flex-col">
+        <div className="px-6 py-5 border-b border-cream/10">
+          <div className="text-gold font-black text-xl">VELUM</div>
         </div>
         <nav className="flex-1 py-4">
           {items.map((it) => (
             <button key={it.key} onClick={() => setTab(it.key)}
-                    className={`w-full flex items-center gap-3 px-3 md:px-6 py-3 text-sm transition ${tab === it.key ? "bg-gold/20 text-gold border-r-4 border-gold" : "hover:bg-cream/5"}`}>
+                    className={`w-full flex items-center gap-3 px-6 py-3 text-sm transition ${tab === it.key ? "bg-gold/20 text-gold border-r-4 border-gold" : "hover:bg-cream/5"}`}>
               <it.icon className="w-5 h-5 shrink-0" />
-              <span className="hidden md:inline">{it.label}</span>
+              <span>{it.label}</span>
             </button>
           ))}
         </nav>
         <button onClick={onLogout}
-                className="m-3 flex items-center justify-center md:justify-start gap-2 px-3 py-2 rounded-md bg-cream/10 hover:bg-cream/20 text-sm">
-          <LogOut className="w-4 h-4" /><span className="hidden md:inline">خروج</span>
+                className="m-3 flex items-center justify-start gap-2 px-3 py-2 rounded-md bg-cream/10 hover:bg-cream/20 text-sm">
+          <LogOut className="w-4 h-4" /><span>خروج</span>
         </button>
       </aside>
-      <main className="flex-1 overflow-x-hidden">
-        <header className="bg-card border-b px-6 py-4 flex items-center justify-between">
-          <h1 className="font-black text-lg">VELUM Admin</h1>
-          <span className="text-xs text-muted-foreground">{new Date().toLocaleDateString("ar-DZ")}</span>
+
+      <main className="flex-1 min-w-0 overflow-x-hidden pb-20 md:pb-0">
+        {/* Sticky header */}
+        <header className="sticky top-0 z-30 bg-ink/95 backdrop-blur text-cream border-b border-cream/10 px-4 md:px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="md:hidden text-gold font-black text-lg">V</span>
+            <h1 className="font-black text-base md:text-lg truncate">{currentLabel}</h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="hidden sm:inline text-[11px] text-cream/60">{new Date().toLocaleDateString("ar-DZ")}</span>
+            <button onClick={onLogout}
+                    className="md:hidden flex items-center gap-1 px-3 py-1.5 rounded-full bg-cream/10 hover:bg-cream/20 text-xs">
+              <LogOut className="w-3.5 h-3.5" />خروج
+            </button>
+          </div>
         </header>
-        <div className="p-6">
+
+        <div className="p-3 sm:p-5 md:p-6">
           {tab === "overview" && <Overview />}
           {tab === "orders" && <OrdersTab />}
           {tab === "settings" && <SettingsTab />}
@@ -139,6 +153,21 @@ function AdminShell({ onLogout }: { onLogout: () => void }) {
           {tab === "promo" && <PromoTab />}
         </div>
       </main>
+
+      {/* Mobile bottom nav */}
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-ink/95 backdrop-blur border-t border-cream/10 grid grid-cols-6 pb-[env(safe-area-inset-bottom)]">
+        {items.map((it) => {
+          const active = tab === it.key;
+          return (
+            <button key={it.key} onClick={() => setTab(it.key)}
+                    className={`flex flex-col items-center justify-center gap-0.5 py-2 text-[10px] transition ${active ? "text-gold" : "text-cream/60 hover:text-cream"}`}>
+              <it.icon className={`w-5 h-5 ${active ? "scale-110" : ""} transition-transform`} />
+              <span className="leading-none">{it.label}</span>
+              {active && <span className="absolute top-0 w-8 h-0.5 bg-gold rounded-full" />}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
