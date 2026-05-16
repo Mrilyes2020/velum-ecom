@@ -588,6 +588,8 @@ function LandingPage() {
       </div>
     );
   }
+  const scrollOrder = () =>
+    document.getElementById("order")?.scrollIntoView({ behavior: "smooth" });
   return (
     <main className="min-h-screen">
       <LiveSocialProof />
@@ -601,6 +603,17 @@ function LandingPage() {
       <OrderSection />
       <Contact />
       <Footer />
+
+      {/* sticky mobile bottom CTA */}
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-ink/95 backdrop-blur border-t border-gold/20 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <button
+          onClick={scrollOrder}
+          className="btn-gold w-full rounded-2xl py-3.5 text-base font-black flex items-center justify-center gap-2 active:scale-[0.98]"
+        >
+          <Package className="w-5 h-5" />
+          اطلب VELUM الآن
+        </button>
+      </div>
     </main>
   );
 }
